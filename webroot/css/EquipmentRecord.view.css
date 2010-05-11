@@ -1,0 +1,38 @@
+/* Data display */
+
+div.dataField {
+	clear: left;
+	float: left;
+	background: palegreen;
+	-moz-border-radius: .7em .7em;
+	padding: 1em;
+	margin: .4em;
+	min-width: 300px;
+}
+
+div.dataField h4 {
+	display: inline;
+	font-size: 1.1em;
+	font-weight: bold;
+	color: black;
+	padding-top: 0;
+	padding-bottom: .5em;
+}
+
+div.dataField p {
+	display: inline;
+	float: right;
+	font-size: 1.2em;
+	text-align: center;
+	
+}
+
+div.dataField form {
+	display: inline;
+	text-align: center;
+	border: 1px solid black;
+}
+
+.actions {
+	clear: both;
+}

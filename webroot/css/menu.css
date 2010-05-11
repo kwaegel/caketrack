@@ -1,0 +1,32 @@
+/*
+	The CSS file for the main navagation menu
+*/
+#menu{
+	float: left;
+	font-size: 1.2em;
+	width: 11em;
+	background: lightBlue;
+}
+#menu ul {
+	list-style: none;
+	margin-left: 0;
+	/*padding-left: 1em;
+	text-indent: -1em;*/
+}
+#menu li {
+	padding-top: .3em;
+	padding-bottom: .3em;
+	text-align: center;
+}
+#menu p {
+	text-align: center;
+	color: black;
+	font-weight: bold;
+	padding-bottom: 0.5em;
+	padding-top: 0.5em;
+}
+#menu a {
+	color: #003d4c;
+	text-decoration: underline;
+	font-weight: bold;
+}
