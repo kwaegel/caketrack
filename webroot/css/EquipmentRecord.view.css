@@ -1,17 +1,17 @@
 /* Data display */
 
 div.dataField {
-	clear: left;
+	/*clear: left;*/
 	float: left;
 	background: palegreen;
 	-moz-border-radius: .7em .7em;
 	padding: 1em;
 	margin: .4em;
-	min-width: 300px;
+	/*min-width: 300px;*/
 }
 
 div.dataField h4 {
-	display: inline;
+	/*display: inline;*/
 	font-size: 1.1em;
 	font-weight: bold;
 	color: black;
@@ -20,8 +20,8 @@ div.dataField h4 {
 }
 
 div.dataField p {
-	display: inline;
-	float: right;
+	/*display: inline;
+	float: right;*/
 	font-size: 1.2em;
 	text-align: center;
 	
@@ -33,6 +33,31 @@ div.dataField form {
 	border: 1px solid black;
 }
 
+.ActionForm {
+	display: block;
+	border: 0;
+	clear: none;
+	margin-top: 0px;
+	margin-left: 0px;
+}
+.ActionForm .submit {
+	clear: none;
+	margin: 0px;
+}
+.ActionForm .select {
+	clear: none;
+	margin: 0px;
+}
+/*
+.actions div {
+	
+	clear: none;
+	padding: 10px 0 0 0;
+	margin: 0px;
+}
+*/
+/*
 .actions {
 	clear: both;
 }
+*/

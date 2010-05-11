@@ -30,7 +30,7 @@
 		<?php __('CakeTrack: an inventory tracking system: '); ?>
 		<?php echo $title_for_layout; ?>
 	</title>
-	<?php echo $javascript->link(array('prototype')); ?>
+	<?php echo $html->script(array('prototype')); ?>
 	<?php
 		echo $html->meta('icon');
 
@@ -57,16 +57,16 @@
 		</div>
 		
 		<div id="menu">
-				<p>Menu</p>
-				<ul>
-					<li><?php echo $html->link(__('Equipment Records', true), array('controller' => 'equipment_records', 'action' => 'index')); ?></li>
-					<li><?php echo $html->link(__('Members', true), array('controller' => 'members', 'action' => 'index')); ?></li>
-					<li><?php echo $html->link(__('Equipment Types', true), array('controller' => 'equipment_types', 'action' => 'index')); ?></li>
-					<li><?php echo $html->link(__('Status Types', true), array('controller' => 'status_types', 'action' => 'index')); ?></li>
-					<li><?php echo $html->link(__('Logs', true), array('controller' => 'logs', 'action' => 'index')); ?></li>
-					<li><?php echo $html->link(__('Logout', true), array('controller' => 'users', 'action' => 'logout')); ?></li>
-				</ul>
-			</div>
+			<p>Menu</p>
+			<ul>
+				<li><?php echo $html->link(__('Equipment Records', true), array('controller' => 'equipment_records', 'action' => 'index')); ?></li>
+				<li><?php echo $html->link(__('Members', true), array('controller' => 'members', 'action' => 'index')); ?></li>
+				<li><?php echo $html->link(__('Equipment Types', true), array('controller' => 'equipment_types', 'action' => 'index')); ?></li>
+				<li><?php echo $html->link(__('Status Types', true), array('controller' => 'status_types', 'action' => 'index')); ?></li>
+				<li><?php echo $html->link(__('Logs', true), array('controller' => 'logs', 'action' => 'index')); ?></li>
+				<li><?php echo $html->link(__('Logout', true), array('controller' => 'users', 'action' => 'logout')); ?></li>
+			</ul>
+		</div>
 		
 		<div id="content">
 

@@ -4,14 +4,33 @@
 	</h2>
 	<div class="equipmentRecordData">
 		<?php $i = 0; $class = ' class="altrow"';?>
+		
+		<div class="dataField">
+			<h4><?php __('Equipment #'); ?></h4>
+			<p class="field_value">
+				<?php
+					$fund = $this->data['Fund']['name'];
+					$num = $this->data['EquipmentRecord']['tracking_number'];
+					if ($fund == 'general')
+						echo 'GF ' . $num;
+					else
+						echo $num;
+				?>
+			</p>
+		</div>
+		<?php /*
 		<div class="dataField">
 			<h4><?php __('Fund'); ?></h4>
-			<p class="field_value"><?php echo $this->data['Fund']['name']; ?></p>
+			<p class="field_value"><?php echo ucwords($this->data['Fund']['name']); ?></p>
 		</div>
+		*/?>
+		<?php /*
 		<div class="dataField">
-			<h4><?php __('Tracking Number'); ?></h4>
+			<h4><?php __('Tracking #'); ?></h4>
 			<p><?php echo $this->data['EquipmentRecord']['tracking_number']; ?></p>
 		</div>
+		*/
+		?>
 		<div class="dataField">
 			<h4><?php __('Equipment Type'); ?></h4>
 			<p>
@@ -33,14 +52,14 @@
 			<p><?php echo $this->data['EquipmentRecord']['in_service']; ?></p>
 		</div>
 		<div class="dataField">
-			<h4><?php __('Status Type'); ?></h4>
+			<h4><?php __('Status'); ?></h4>
 			<p>
 				<?php echo $html->link($this->data['StatusType']['status_type'], array('controller' => 'status_types', 'action' => 'view', $this->data['StatusType']['id'])); ?>
 			</p>
 			
-			<?php echo $form->create('EquipmentRecord', array('action' => 'edit'));?>
-				<?php echo $form->input('status_type_id'); ?>
-			<?php echo $form->end('Change Status');?>
+			<?php //echo $form->create('EquipmentRecord', array('action' => 'edit'));?>
+				<?php //echo $form->input('status_type_id'); ?>
+			<?php //echo $form->end('Change Status');?>
 			
 		</div>
 		<div class="dataField">
@@ -49,13 +68,33 @@
 				<?php echo $html->link($this->data['Member']['name'], array('controller' => 'members', 'action' => 'view', $this->data['Member']['id'])); ?>
 			</p>
 			
-			<?php echo $form->create('EquipmentRecord', array('action' => 'edit'));?>
-				<?php echo $form->input('member_id'); ?>
-			<?php echo $form->end('Change Member');?>
+			<?php //echo $form->create('EquipmentRecord', array('action' => 'edit'));?>
+				<?php //echo $form->input('member_id'); ?>
+			<?php //echo $form->end('Change Member');?>
 		</div>
 	</div>
 </div>
 <div class="actions">
+	<div class="ActionForm">
+	<?php
+		echo $form->create('EquipmentRecord', array('action' => 'unassign'));
+		//echo $form->input();
+		echo $form->end('Unassign');
+	?>
+	</div>
+	<div class="ActionForm">
+	<?php echo $form->create('EquipmentRecord', array('action' => 'reassign'));?>
+	<?php echo $form->input('member_id'); ?>
+	<?php echo $form->end('Change Member');?>
+	</div>
+	
+	<div class="ActionForm">
+	<?php echo $form->create('EquipmentRecord', array('action' => 'changestatus'));?>
+	<?php echo $form->input('status_type_id'); ?>
+	<?php echo $form->end('Change Status');?>
+	</div>
+
+
 	<ul>
 		<li><?php echo $html->link(__('Edit Full Equipment Record', true), array('action' => 'edit', $this->data['EquipmentRecord']['id'])); ?> </li>
 		<li><?php //echo $html->link(__('Delete EquipmentRecord', true), array('action' => 'delete', $equipmentRecord['EquipmentRecord']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $equipmentRecord['EquipmentRecord']['id'])); ?> </li>

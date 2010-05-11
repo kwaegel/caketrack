@@ -269,12 +269,14 @@ form div.required {
 	color: #333;
 	font-weight: bold;
 }
+/*
 form div.submit {
 	border: 0;
 	clear: both;
 	margin-top: 10px;
 	margin-left: 140px;
 }
+*/
 label {
 	display: block;
 	font-size: 110%;
@@ -320,6 +322,7 @@ input[type=submit] {
 	width: auto;
 	vertical-align: bottom;
 }
+
 
 /* Notices and Errors */
 div.message {
