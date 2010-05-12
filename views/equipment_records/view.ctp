@@ -88,7 +88,7 @@
 	</div>
 	
 	<div class="ActionForm">
-	<?php echo $form->create('EquipmentRecord', array('action' => 'changestatus'));?>
+	<?php echo $form->create('EquipmentRecord', array('action' => 'updatestatus'));?>
 	<?php echo $form->input('status_type_id'); ?>
 	<?php echo $form->end('Change Status');?>
 	</div>

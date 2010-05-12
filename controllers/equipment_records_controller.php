@@ -180,12 +180,15 @@ class EquipmentRecordsController extends AppController {
 			
 			
 			// create first log for unassignment
-			$logDescription = 'Unassigned from ' . $oldMemberRecord['Member']['name'];
-			$this->data['Log']['0'] = array(
-				'user_id' => $userData['User']['id'],
-				'member_id' => $this->data['EquipmentRecord']['member_id'],
-				'description' =>  $logDescription,
-			);
+			if ($this->data['EquipmentRecord']['member_id'] != $noneMemberID)
+			{
+				$logDescription = 'Unassigned from ' . $oldMemberRecord['Member']['name'];
+				$this->data['Log']['0'] = array(
+					'user_id' => $userData['User']['id'],
+					'member_id' => $this->data['EquipmentRecord']['member_id'],
+					'description' =>  $logDescription,
+				);
+			}
 			
 			// modify equipment data
 			$this->data['EquipmentRecord']['member_id'] = $submittedData['EquipmentRecord']['member_id'];
@@ -226,7 +229,7 @@ class EquipmentRecordsController extends AppController {
 		$userData = $this->Auth->user(); 
 		
 		// get the current equipment data
-		$this->data = $this->EquipmentRecord->read(array('member_id', 'status_type_id'));
+		$this->data = $this->EquipmentRecord->read(array('member_id'));
 		$this->data['EquipmentRecord']['id'] = $id;
 		
 		// find the member number for 'none'
@@ -265,6 +268,53 @@ class EquipmentRecordsController extends AppController {
 		{
 			$this->Session->setFlash('An error occured while updating the record.');
 			$this->set('cakeDebug', $this->data);
+		}
+	}
+	
+	// update status
+	function updatestatus($id = null) {
+		if (!$id) {
+			$this->Session->setFlash('Invalid Equipment Record request: no ID number.');
+			$this->redirect(array('action'=>'index'));
+		}
+		// store the submitted data
+		$submittedData = $this->data;
+		
+		// get the user authentication data
+		$userData = $this->Auth->user(); 
+		
+		// get the current equipment data
+		$this->data = $this->EquipmentRecord->read(array('id', 'status_type_id'));
+		
+		// only update if the status type will change
+		if ($submittedData['EquipmentRecord']['status_type_id'] != $this->data['EquipmentRecord']['status_type_id'])
+		{
+			// update the equipment data
+			$this->data['EquipmentRecord']['status_type_id'] = $submittedData['EquipmentRecord']['status_type_id'];
+			
+			// get status type
+			$newStatus = $this->EquipmentRecord->StatusType->find('first', array('conditions' => array('StatusType.id' => $this->data['EquipmentRecord']['status_type_id'])));
+			
+			// create log of status change
+			$logDescription = 'Status changed to: ' . $newStatus['StatusType']['status_type'];			
+			
+			$this->data['Log']['0'] = array(
+				'user_id' => $userData['User']['id'],
+				'description' =>  $logDescription
+			);
+			
+			// save the data
+			if($this->EquipmentRecord->saveAll($this->data, array('validate'=>'first')))
+			{
+				$this->Session->setFlash('Equipment record updated');
+				$this->autoRender = false;	// don't try to display the empty updateStatus view
+				$this->redirect(array('action'=>'view', $id));
+			}
+			else
+			{
+				$this->Session->setFlash('An error occured while updating the record.');
+				$this->set('cakeDebug', $this->data);
+			}
 		}
 	}
 
