@@ -78,7 +78,6 @@
 	<div class="ActionForm">
 	<?php
 		echo $form->create('EquipmentRecord', array('action' => 'unassign'));
-		//echo $form->input();
 		echo $form->end('Unassign');
 	?>
 	</div>
@@ -97,15 +96,6 @@
 
 	<ul>
 		<li><?php echo $html->link(__('Edit Full Equipment Record', true), array('action' => 'edit', $this->data['EquipmentRecord']['id'])); ?> </li>
-		<li><?php //echo $html->link(__('Delete EquipmentRecord', true), array('action' => 'delete', $equipmentRecord['EquipmentRecord']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $equipmentRecord['EquipmentRecord']['id'])); ?> </li>
-		<li><?php //echo $html->link(__('List EquipmentRecords', true), array('action' => 'index')); ?> </li>
-		<li><?php //echo $html->link(__('Add New Equipment Record', true), array('action' => 'add')); ?> </li>
-		<li><?php //echo $html->link(__('List Members', true), array('controller' => 'members', 'action' => 'index')); ?> </li>
-		<li><?php //echo $html->link(__('New Member', true), array('controller' => 'members', 'action' => 'add')); ?> </li>
-		<li><?php //echo $html->link(__('List Equipment Types', true), array('controller' => 'equipment_types', 'action' => 'index')); ?> </li>
-		<li><?php //echo $html->link(__('New Equipment Type', true), array('controller' => 'equipment_types', 'action' => 'add')); ?> </li>
-		<li><?php //echo $html->link(__('List Status Types', true), array('controller' => 'status_types', 'action' => 'index')); ?> </li>
-		<li><?php //echo $html->link(__('New Status Type', true), array('controller' => 'status_types', 'action' => 'add')); ?> </li>
 	</ul>
 </div>
 

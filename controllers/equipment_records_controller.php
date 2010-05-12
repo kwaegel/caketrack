@@ -120,7 +120,8 @@ class EquipmentRecordsController extends AppController {
 				$this->Session->setFlash(__('The EquipmentRecord could not be saved. Please, try again.', true));
 			}
 		}
-		if (empty($this->data)) {
+		//if (empty($this->data)) {
+		else {
 			$this->data = $this->EquipmentRecord->read(null, $id);
 		}
 		$funds = $this->EquipmentRecord->Fund->find('list');
@@ -141,22 +142,130 @@ class EquipmentRecordsController extends AppController {
 		}
 	}
 	
-	function getRecordDiff($oldRecord, $newRecord){
+	
+	/** less general methods **/
+	
+	function reassign($id = null) {
+		if (!$id) {
+			$this->Session->setFlash('Invalid Equipment Record request: no ID number.');
+			$this->redirect(array('action'=>'index'));
+		}
 		
-		// for each data field
-		$logString = '';
-		foreach($newRecord as $key => $value) {
-			if ($value != $oldRecord[$key]) {
-				$logString = $logString . $key . ': ' .  $oldRecord[$key] . " changed to " . $newRecord[$key] . "\n";
+		
+		
+		// get the user authentication data
+		$userData = $this->Auth->user(); 
+		
+		// find the member number for 'none'
+		$noneMemberRecord = $this->EquipmentRecord->Member->find('first', array('conditions' => array('Member.name' => 'None')));
+		$noneMemberID = $noneMemberRecord['Member']['id'];
+		
+		// if we are assigning to no one, treat as an usassignment action.
+		if ($this->data['EquipmentRecord']['member_id'] == $noneMemberID) {
+			$this->unassign($id);
+		}
+		else
+		{
+			// store the submitted data
+			$submittedData = $this->data;
+			
+			// get the current equipment data
+			$this->data = $this->EquipmentRecord->read(array('member_id', 'status_type_id'));
+			
+			// merge in $id
+			$this->data['EquipmentRecord']['id'] = $id;
+			//$this->data = array_merge($this->data, $submittedData);
+			
+			$oldMemberRecord = $this->EquipmentRecord->Member->find('first', array('conditions' => array('Member.id' => $this->data['EquipmentRecord']['member_id'])));
+			
+			
+			// create first log for unassignment
+			$logDescription = 'Unassigned from ' . $oldMemberRecord['Member']['name'];
+			$this->data['Log']['0'] = array(
+				'user_id' => $userData['User']['id'],
+				'member_id' => $this->data['EquipmentRecord']['member_id'],
+				'description' =>  $logDescription,
+			);
+			
+			// modify equipment data
+			$this->data['EquipmentRecord']['member_id'] = $submittedData['EquipmentRecord']['member_id'];
+			
+			$newMemberRecord = $this->EquipmentRecord->Member->find('first', array('conditions' => array('Member.id' => $this->data['EquipmentRecord']['member_id'])));
+			
+			// create second log message for assignment
+			$logDescription = 'Assigned to ' . $newMemberRecord['Member']['name'];
+			$this->data['Log']['1'] = array(
+				'user_id' => $userData['User']['id'],
+				'member_id' => $this->data['EquipmentRecord']['member_id'],
+				'description' =>  $logDescription,
+			);
+			
+			
+			if($this->EquipmentRecord->saveAll($this->data, array('validate'=>'first')))
+			{
+				$this->Session->setFlash('Equipment record updated');
+				$this->autoRender = false;	// don't try to display the empty unassign view
+				$this->redirect(array('action'=>'view', $id));
 			}
+			else
+			{
+				$this->Session->setFlash('An error occured while updating the record.');
+				$this->set('cakeDebug', $this->data);
+			}
+			
+		} // end else
+	} // end unassign
+	
+	function unassign($id = null) {
+		if (!$id) {
+			$this->Session->setFlash('Invalid Equipment Record request: no ID number.');
+			$this->redirect(array('action'=>'index'));
 		}
 		
-		if ($logString != '') {
-			$logString = "Model Changed:\n" . $logString;
+		// get the user authentication data
+		$userData = $this->Auth->user(); 
+		
+		// get the current equipment data
+		$this->data = $this->EquipmentRecord->read(array('member_id', 'status_type_id'));
+		$this->data['EquipmentRecord']['id'] = $id;
+		
+		// find the member number for 'none'
+		$noneMemberRecord = $this->EquipmentRecord->Member->find('first', array('conditions' => array('Member.name' => 'None')));
+		$noneMemberID = $noneMemberRecord['Member']['id'];
+		$memberRecord = $this->EquipmentRecord->Member->find('first', array('conditions' => array('Member.id' => $this->data['EquipmentRecord']['member_id'])));
+		
+		// if the equipment is already assigned to no one, do nothing.
+		if ($this->data['EquipmentRecord']['member_id'] == $noneMemberID)
+		{
+			
+			$this->Session->setFlash('Equipment record not assigned.');
+			$this->autoRender = false;	// don't try to display the empty unassign view
+			$this->redirect(array('action'=>'view', $id));
+			return;
 		}
+
+		// setup log fields
+		$logDescription = 'Unassigned from ' . $memberRecord['Member']['name'];
+		$this->data['Log']['0'] = array(
+			'user_id' => $userData['User']['id'],
+			'member_id' => $this->data['EquipmentRecord']['member_id'],
+			'description' =>  $logDescription,
+		);
 		
-		return $logString;
+		// modify equipment data
+		$this->data['EquipmentRecord']['member_id'] = $noneMemberRecord['Member']['id'];
 		
+		if($this->EquipmentRecord->saveAll($this->data, array('validate'=>'first')))
+		{
+			$this->Session->setFlash('Equipment record updated');
+			$this->autoRender = false;	// don't try to display the empty unassign view
+			$this->redirect(array('action'=>'view', $id));
+		}
+		else
+		{
+			$this->Session->setFlash('An error occured while updating the record.');
+			$this->set('cakeDebug', $this->data);
+		}
 	}
 
 }

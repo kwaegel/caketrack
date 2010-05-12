@@ -1,5 +1,5 @@
 <div class="register">
-<h2>Register</h2>
+<h2>Register a new user</h2>
 <?php
     $session->flash('auth');
     echo $form->create('User', array('action' => 'register'));
