@@ -54,7 +54,11 @@ class EquipmentRecordsController extends AppController {
 
 	function add() {
 		if (!empty($this->data)) {
+		
+			// create a new equipment record
 			$this->EquipmentRecord->create();
+			
+			Debugger::log($this->data, $level='dev');
 			
 			$tracking_num = $this->data['EquipmentRecord']['tracking_number'];
 
@@ -71,17 +75,42 @@ class EquipmentRecordsController extends AppController {
 			$tracking_num = preg_replace('/\D/', '', $tracking_num);
 			
 			$this->data['EquipmentRecord']['tracking_number'] = $tracking_num;
-
-			//Debugger::log($this->data['EquipmentRecord'], $level='dev');
 			
-			if ($this->EquipmentRecord->save($this->data)) {
-				$this->Session->setFlash(__('The equipment record has been saved', true));
-				$this->redirect(array('action'=>'view', $id));
-				//$this->redirect(array('action'=>'index'));
+			// create a log record of this item being added to the system
+			$userData = $this->Auth->user();
+			$this->data['Log']['0'] = array(
+				'user_id' => $userData['User']['id'],
+				'description' =>  'Equipment entered into the system.',
+			);
+			
+			// if the equipment is being assigned to someone, create a log entry for that
+			if (isset($this->data['EquipmentRecord']['member_id']))
+			{
+				// get the member name
+				$memberRecord = $this->EquipmentRecord->Member->find('first', array('conditions' => array('Member.id' => $this->data['EquipmentRecord']['member_id'])));
+
+				// create second log message for assignment
+				$logDescription = 'Assigned to ' . $memberRecord['Member']['name'];
+				$this->data['Log']['1'] = array(
+					'user_id' => $userData['User']['id'],
+					'member_id' => $this->data['EquipmentRecord']['member_id'],
+					'description' =>  $logDescription,
+				);
+			}
+			
+			if ($this->EquipmentRecord->saveAll($this->data, array('validate'=>'first'))) {
+				$this->Session->setFlash('Equipment record ' . $tracking_num . ' added');
+				$this->redirect(array('action'=>'add'));
+				/*
+				$equipmentId = $this->EquipmentRecord->getLastInsertId(); 
+				$this->redirect(array('action'=>'view', $equipmentId));
+				*/
 			} else {
-				$this->Session->setFlash(__('The equipment record could not be saved. Please, try again.', true));
+				$this->Session->setFlash('The equipment record could not be saved. Please, try again.');
 			}
 		}
+		
+		// data to populate dropdown lists
 		$funds = $this->EquipmentRecord->Fund->find('list');
 		$members = $this->EquipmentRecord->Member->find('list');
 		$equipmentTypes = $this->EquipmentRecord->EquipmentType->find('list');
@@ -149,9 +178,8 @@ class EquipmentRecordsController extends AppController {
 		if (!$id) {
 			$this->Session->setFlash('Invalid Equipment Record request: no ID number.');
 			$this->redirect(array('action'=>'index'));
+			return;
 		}
-		
-		
 		
 		// get the user authentication data
 		$userData = $this->Auth->user(); 

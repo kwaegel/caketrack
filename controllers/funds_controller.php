@@ -11,7 +11,7 @@ class FundsController extends AppController {
 
 	function view($id = null) {
 		if (!$id) {
-			$this->flash(__('Invalid Fund', true), array('action'=>'index'));
+			$this->flash('Invalid Fund', array('action'=>'index'));
 		}
 		$this->set('fund', $this->Fund->read(null, $id));
 	}

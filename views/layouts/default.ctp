@@ -71,8 +71,9 @@
 		<div id="content">
 
 			<?php
-				$session->flash();
-				$session->flash('auth');
+				// show flash messages
+				echo $session->flash();
+				echo $session->flash('auth');
 			?>
 
 			<?php echo $content_for_layout; ?>

@@ -50,7 +50,14 @@ foreach ($equipmentRecords as $equipmentRecord):
 			<?php echo $equipmentRecord['EquipmentRecord']['size']; ?>
 		</td>
 		<td>
-			<?php echo $equipmentRecord['EquipmentRecord']['in_service']; ?>
+			<?php 
+				$inService = $equipmentRecord['EquipmentRecord']['in_service'];
+				if ($inService != '0000-00-00')
+				{
+					echo $inService;
+				}
+			
+			?>
 		</td>
 		<td>
 			<?php echo $html->link($equipmentRecord['StatusType']['status_type'], array('controller' => 'status_types', 'action' => 'view', $equipmentRecord['StatusType']['id'])); ?>
