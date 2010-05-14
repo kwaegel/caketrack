@@ -31,26 +31,12 @@ class MembersController extends AppController {
 		);
 		$this->set('member', $this->Member->read(null, $id));
 		
-		/*
-		// get pages of all the equipmentRecords this member has
-		$this->paginate = array(
-			'limit' => 10, 
-			'contain' => array(
-				'Fund',
-				'EquipmentType',
-				'StatusType',
-				'Member'
-			)
-		);
-		$this->set('equipmentRecords', $this->paginate('EquipmentRecord', array('EquipmentRecord.member_id'=>$id)));
-		*/
-		
 		// get pages of all logs related to this member
 		$this->paginate = array(
 			'fields' => array('Log.created', 'Log.user_id', 'Log.equipment_record_id', 'Log.description'),
 			'limit' => 10,
 			'order' => array(
-				'Log.created' => 'desc'
+				'Log.id' => 'desc'
 			),
 			'contain' => array(
 				'User.username',
@@ -67,11 +53,20 @@ class MembersController extends AppController {
 	function add() {
 		if (!empty($this->data)) {
 			$this->Member->create();
-			if ($this->Member->save($this->data)) {
-				$this->Session->setFlash(__('The Member has been saved', true));
+			
+			// create a log record of this member being added to the system
+			$userData = $this->Auth->user();
+			$this->data['Log']['0'] = array(
+				'user_id' => $userData['User']['id'],
+				'description' =>  'Added '. $this->data['Member']['name'] .' to the system.',
+			);
+			
+			// save all data
+			if ($this->Member->saveAll($this->data)) {
+				$this->Session->setFlash('New member added');
 				$this->redirect(array('action'=>'index'));
 			} else {
-				$this->Session->setFlash(__('The Member could not be saved. Please, try again.', true));
+				$this->Session->setFlash('The Member could not be saved. Please, try again.');
 			}
 		}
 	}

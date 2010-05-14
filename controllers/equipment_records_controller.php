@@ -41,7 +41,10 @@ class EquipmentRecordsController extends AppController {
 		// get logs for item
 		// Isn't there some way to get this from the current model?
 		// Paginate this with Ajax.
-		$log_results = $this->EquipmentRecord->Log->find('all', array('conditions' => array('Log.equipment_record_id' => $id)));
+		$log_results = $this->EquipmentRecord->Log->find('all', array(
+			'conditions' 	=> array('Log.equipment_record_id' => $id),
+			'order' 		=> array('Log.id DESC')	// id will maintain correct order even with the same timestamp
+		));
 		$this->set('logs', $log_results);
 		
 		// set vars for drop down form elements

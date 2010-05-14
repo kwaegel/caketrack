@@ -95,12 +95,12 @@
 
 
 	<ul>
-		<li><?php echo $html->link(__('Edit Full Equipment Record', true), array('action' => 'edit', $this->data['EquipmentRecord']['id'])); ?> </li>
+		<li><?php echo $html->link(__('Edit Equipment Information', true), array('action' => 'edit', $this->data['EquipmentRecord']['id'])); ?> </li>
 	</ul>
 </div>
 
 <div class="related">
-	<h3>History</h3>
+	<h3>Equipment History</h3>
 	<div class="logs">
 		<table cellpadding="0" cellspacing="0">
 		<tr>

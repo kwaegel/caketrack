@@ -3,7 +3,7 @@
 	$paginator->options(array('url' => $this->passedArgs));
 ?>
 <div class="equipmentRecords index">
-<h2><?php __('EquipmentRecords');?></h2>
+<h2><?php __('Equipment Records');?></h2>
 <p>
 <?php
 echo $paginator->counter(array(

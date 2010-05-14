@@ -98,6 +98,7 @@
 			echo "Debug dump \n";
 			$debug->dump($cakeDebug);
 		}
+		echo $this->element('sql_dump');
 	?>
 </body>
 </html>
