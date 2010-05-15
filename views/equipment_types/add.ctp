@@ -10,8 +10,6 @@
 </div>
 <div class="actions">
 	<ul>
-		<li><?php echo $html->link(__('List EquipmentTypes', true), array('action' => 'index'));?></li>
-		<li><?php echo $html->link(__('List Equipment Records', true), array('controller' => 'equipment_records', 'action' => 'index')); ?> </li>
-		<li><?php echo $html->link(__('New Equipment Record', true), array('controller' => 'equipment_records', 'action' => 'add')); ?> </li>
+		<li><?php echo $html->link('Go back to equipment types list', array('action' => 'index'));?></li>
 	</ul>
 </div>

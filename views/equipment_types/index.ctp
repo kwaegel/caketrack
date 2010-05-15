@@ -1,14 +1,19 @@
 <div class="equipmentTypes index">
-<h2><?php __('EquipmentTypes');?></h2>
+<h2><?php echo 'Equipment Types';?></h2>
 <p>
-<?php
-echo $paginator->counter(array(
-'format' => __('Page %page% of %pages%, showing %current% records out of %count% total, starting on record %start%, ending on %end%', true)
-));
-?></p>
+	<?php
+	echo $paginator->counter(array(
+	'format' => __('Page %page% of %pages%, showing %current% records out of %count% total, starting on record %start%, ending on %end%', true)
+	));
+	?>
+</p>
+<div class="paging">
+	<?php echo $paginator->prev('<< '.'previous', array(), null, array('class'=>'disabled'));?>
+ | 	<?php echo $paginator->numbers();?>
+	<?php echo $paginator->next('next'.' >>', array(), null, array('class' => 'disabled'));?>
+</div>
 <table cellpadding="0" cellspacing="0">
 <tr>
-	<th><?php echo $paginator->sort('id');?></th>
 	<th><?php echo $paginator->sort('type');?></th>
 	<th class="actions"><?php __('Actions');?></th>
 </tr>
@@ -21,30 +26,22 @@ foreach ($equipmentTypes as $equipmentType):
 	}
 ?>
 	<tr<?php echo $class;?>>
-		<td>
+		<!--<td>
 			<?php echo $equipmentType['EquipmentType']['id']; ?>
-		</td>
+		</td>-->
 		<td>
 			<?php echo $equipmentType['EquipmentType']['type']; ?>
 		</td>
 		<td class="actions">
-			<?php echo $html->link(__('View', true), array('action' => 'view', $equipmentType['EquipmentType']['id'])); ?>
-			<?php echo $html->link(__('Edit', true), array('action' => 'edit', $equipmentType['EquipmentType']['id'])); ?>
-			<?php echo $html->link(__('Delete', true), array('action' => 'delete', $equipmentType['EquipmentType']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $equipmentType['EquipmentType']['id'])); ?>
+			<?php echo $html->link('View',	array('action' => 'view', $equipmentType['EquipmentType']['id'])); ?>
+			<?php echo $html->link('Edit Name',	array('action' => 'edit', $equipmentType['EquipmentType']['id'])); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>
 </table>
 </div>
-<div class="paging">
-	<?php echo $paginator->prev('<< '.__('previous', true), array(), null, array('class'=>'disabled'));?>
- | 	<?php echo $paginator->numbers();?>
-	<?php echo $paginator->next(__('next', true).' >>', array(), null, array('class' => 'disabled'));?>
-</div>
 <div class="actions">
 	<ul>
-		<li><?php echo $html->link(__('New EquipmentType', true), array('action' => 'add')); ?></li>
-		<li><?php echo $html->link(__('List Equipment Records', true), array('controller' => 'equipment_records', 'action' => 'index')); ?> </li>
-		<li><?php echo $html->link(__('New Equipment Record', true), array('controller' => 'equipment_records', 'action' => 'add')); ?> </li>
+		<li><?php echo $html->link('Add new equipment type', array('action' => 'add')); ?></li>
 	</ul>
 </div>
