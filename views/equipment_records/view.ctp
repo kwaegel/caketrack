@@ -1,12 +1,12 @@
 <div class="equipmentRecords view">
 	<h2>
-		<?php __('Equipment Record');?>: <?php $tracking->makeTrackingString($this->data['Fund']['name'], $this->data['EquipmentRecord']['tracking_number']); ?>
+		<?php echo 'Equipment Record'; ?>: <?php $tracking->makeTrackingString($this->data['Fund']['name'], $this->data['EquipmentRecord']['tracking_number']); ?>
 	</h2>
 	<div class="equipmentRecordData">
 		<?php $i = 0; $class = ' class="altrow"';?>
 		
 		<div class="dataField">
-			<h4><?php __('Equipment #'); ?></h4>
+			<h4><?php echo 'Equipment #'; ?></h4>
 			<p class="field_value">
 				<?php
 					$fund = $this->data['Fund']['name'];
@@ -18,21 +18,8 @@
 				?>
 			</p>
 		</div>
-		<?php /*
 		<div class="dataField">
-			<h4><?php __('Fund'); ?></h4>
-			<p class="field_value"><?php echo ucwords($this->data['Fund']['name']); ?></p>
-		</div>
-		*/?>
-		<?php /*
-		<div class="dataField">
-			<h4><?php __('Tracking #'); ?></h4>
-			<p><?php echo $this->data['EquipmentRecord']['tracking_number']; ?></p>
-		</div>
-		*/
-		?>
-		<div class="dataField">
-			<h4><?php __('Equipment Type'); ?></h4>
+			<h4><?php echo 'Equipment Type'; ?></h4>
 			<p>
 				<?php echo $html->link($this->data['EquipmentType']['type'], array('controller' => 'equipment_types', 'action' => 'view', $this->data['EquipmentType']['id'])); ?>
 			</p>
@@ -56,21 +43,12 @@
 			<p>
 				<?php echo $html->link($this->data['StatusType']['status_type'], array('controller' => 'status_types', 'action' => 'view', $this->data['StatusType']['id'])); ?>
 			</p>
-			
-			<?php //echo $form->create('EquipmentRecord', array('action' => 'edit'));?>
-				<?php //echo $form->input('status_type_id'); ?>
-			<?php //echo $form->end('Change Status');?>
-			
 		</div>
 		<div class="dataField">
 			<h4><?php __('Member'); ?></h4>
 			<p>
 				<?php echo $html->link($this->data['Member']['name'], array('controller' => 'members', 'action' => 'view', $this->data['Member']['id'])); ?>
 			</p>
-			
-			<?php //echo $form->create('EquipmentRecord', array('action' => 'edit'));?>
-				<?php //echo $form->input('member_id'); ?>
-			<?php //echo $form->end('Change Member');?>
 		</div>
 	</div>
 </div>
@@ -137,7 +115,4 @@
 		<?php endforeach; ?>
 		</table>
 	</div>
-	
-	<?php $debug->dump($this->data); ?>
-	
 </div>

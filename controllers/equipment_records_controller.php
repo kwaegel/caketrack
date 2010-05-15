@@ -31,16 +31,14 @@ class EquipmentRecordsController extends AppController {
 		if (!$id) {
 			$this->Session->setFlash(__('Invalid EquipmentRecord.', true));
 			$this->redirect(array('action'=>'index'));
+			return;
 		}
-		
 		if (empty($this->data)) {
 			$this->EquipmentRecord->contain('Fund', 'EquipmentType', 'StatusType', 'Member');
 			$this->data = $this->EquipmentRecord->read(null, $id);
 		}
 		
 		// get logs for item
-		// Isn't there some way to get this from the current model?
-		// Paginate this with Ajax.
 		$log_results = $this->EquipmentRecord->Log->find('all', array(
 			'conditions' 	=> array('Log.equipment_record_id' => $id),
 			'order' 		=> array('Log.id DESC')	// id will maintain correct order even with the same timestamp
@@ -48,9 +46,7 @@ class EquipmentRecordsController extends AppController {
 		$this->set('logs', $log_results);
 		
 		// set vars for drop down form elements
-		//$funds = $this->EquipmentRecord->Fund->find('list');
 		$members = $this->EquipmentRecord->Member->find('list');
-		//$equipmentTypes = $this->EquipmentRecord->EquipmentType->find('list');
 		$statusTypes = $this->EquipmentRecord->StatusType->find('list');
 		$this->set(compact('statusTypes', 'members'));
 	}
@@ -147,12 +143,10 @@ class EquipmentRecordsController extends AppController {
 			if ($this->EquipmentRecord->save($this->data, array('validate'=>'first'))) {
 				$this->Session->setFlash(__('Equipment record updated', true));
 				$this->redirect(array('action'=>'view', $id));
-				//$this->redirect(array('action'=>'index'));
 			} else {
 				$this->Session->setFlash(__('The EquipmentRecord could not be saved. Please, try again.', true));
 			}
 		}
-		//if (empty($this->data)) {
 		else {
 			$this->data = $this->EquipmentRecord->read(null, $id);
 		}
@@ -244,7 +238,6 @@ class EquipmentRecordsController extends AppController {
 			else
 			{
 				$this->Session->setFlash('An error occured while updating the record.');
-				$this->set('cakeDebug', $this->data);
 			}
 			
 		} // end else
@@ -298,7 +291,6 @@ class EquipmentRecordsController extends AppController {
 		else
 		{
 			$this->Session->setFlash('An error occured while updating the record.');
-			$this->set('cakeDebug', $this->data);
 		}
 	}
 	
@@ -344,7 +336,6 @@ class EquipmentRecordsController extends AppController {
 			else
 			{
 				$this->Session->setFlash('An error occured while updating the record.');
-				$this->set('cakeDebug', $this->data);
 			}
 		}
 	}
