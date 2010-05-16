@@ -45,9 +45,6 @@
 </div>
 <div class="actions">
 	<ul>
-		<li><?php echo $html->link(__('Edit Log', true), array('action' => 'edit', $log['Log']['id'])); ?> </li>
-		<li><?php echo $html->link(__('Delete Log', true), array('action' => 'delete', $log['Log']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $log['Log']['id'])); ?> </li>
-		<li><?php echo $html->link(__('List Logs', true), array('action' => 'index')); ?> </li>
-		<li><?php echo $html->link(__('New Log', true), array('action' => 'add')); ?> </li>
+		<li><?php echo $html->link(__('Go back to list', true), array('action' => 'index')); ?> </li>
 	</ul>
 </div>

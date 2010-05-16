@@ -3,28 +3,12 @@
 	$paginator->options(array('url' => $this->passedArgs));
 ?>
 <div class="statusTypes view">
-<h2><?php  __('StatusType');?></h2>
-	<dl><?php $i = 0; $class = ' class="altrow"';?>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Id'); ?></dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $statusType['StatusType']['id']; ?>
-			&nbsp;
-		</dd>
-		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Status Type'); ?></dt>
-		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $statusType['StatusType']['status_type']; ?>
-			&nbsp;
-		</dd>
-	</dl>
+<h2><?php  echo 'Status type: ' . $statusType['StatusType']['status_type'];?></h2>
 </div>
 <div class="actions">
 	<ul>
-		<li><?php echo $html->link(__('Edit StatusType', true), array('action' => 'edit', $statusType['StatusType']['id'])); ?> </li>
-		<li><?php echo $html->link(__('Delete StatusType', true), array('action' => 'delete', $statusType['StatusType']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $statusType['StatusType']['id'])); ?> </li>
-		<li><?php echo $html->link(__('List StatusTypes', true), array('action' => 'index')); ?> </li>
-		<li><?php echo $html->link(__('New StatusType', true), array('action' => 'add')); ?> </li>
-		<li><?php echo $html->link(__('List Equipment Records', true), array('controller' => 'equipment_records', 'action' => 'index')); ?> </li>
-		<li><?php echo $html->link(__('New Equipment Record', true), array('controller' => 'equipment_records', 'action' => 'add')); ?> </li>
+		<li><?php echo $html->link('Edit status type name', array('action' => 'edit', $statusType['StatusType']['id'])); ?> </li>
+		<li><?php echo $html->link(__('List status types', true), array('action' => 'index')); ?> </li>
 	</ul>
 </div>
 <div class="related">
@@ -32,11 +16,17 @@
 	<div>
 	<br />
 	<p>
-	<?php
-	echo $paginator->counter(array(
-	'format' => __('Page %page% of %pages%, showing %current% records out of %count% total, starting on record %start%, ending on %end%', true)
-	));
-	?></p>
+		<?php
+		echo $paginator->counter(array(
+		'format' => __('Page %page% of %pages%, showing %current% records out of %count% total, starting on record %start%, ending on %end%', true)
+		));
+		?>
+	</p>
+	<div class="paging">
+		<?php echo $paginator->prev('<< '.__('previous', true), array(), null, array('class'=>'disabled'));?>
+	 | 	<?php echo $paginator->numbers();?>
+		<?php echo $paginator->next(__('next', true).' >>', array(), null, array('class' => 'disabled'));?>
+	</div>
 	<table cellpadding="0" cellspacing="0">
 	<tr>
 		<th><?php echo $paginator->sort('fund');?></th>
@@ -98,16 +88,5 @@
 	<?php endforeach; ?>
 	</table>
 
-	</div>
-	<div class="paging">
-		<?php echo $paginator->prev('<< '.__('previous', true), array(), null, array('class'=>'disabled'));?>
-	 | 	<?php echo $paginator->numbers();?>
-		<?php echo $paginator->next(__('next', true).' >>', array(), null, array('class' => 'disabled'));?>
-	</div>
-
-	<div class="actions">
-		<ul>
-			<li><?php echo $html->link(__('New Equipment Record', true), array('controller' => 'equipment_records', 'action' => 'add'));?> </li>
-		</ul>
 	</div>
 </div>

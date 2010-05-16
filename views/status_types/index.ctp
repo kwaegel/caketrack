@@ -1,5 +1,5 @@
 <div class="statusTypes index">
-<h2><?php __('StatusTypes');?></h2>
+<h2><?php echo 'Status types';?></h2>
 <p>
 <?php
 echo $paginator->counter(array(
@@ -28,9 +28,8 @@ foreach ($statusTypes as $statusType):
 			<?php echo $statusType['StatusType']['status_type']; ?>
 		</td>
 		<td class="actions">
-			<?php echo $html->link(__('View', true), array('action' => 'view', $statusType['StatusType']['id'])); ?>
-			<?php echo $html->link(__('Edit', true), array('action' => 'edit', $statusType['StatusType']['id'])); ?>
-			<?php echo $html->link(__('Delete', true), array('action' => 'delete', $statusType['StatusType']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $statusType['StatusType']['id'])); ?>
+			<?php echo $html->link('View', array('action' => 'view', $statusType['StatusType']['id'])); ?>
+			<?php echo $html->link('Edit name', array('action' => 'edit', $statusType['StatusType']['id'])); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>
@@ -43,8 +42,6 @@ foreach ($statusTypes as $statusType):
 </div>
 <div class="actions">
 	<ul>
-		<li><?php echo $html->link(__('New StatusType', true), array('action' => 'add')); ?></li>
-		<li><?php echo $html->link(__('List Equipment Records', true), array('controller' => 'equipment_records', 'action' => 'index')); ?> </li>
-		<li><?php echo $html->link(__('New Equipment Record', true), array('controller' => 'equipment_records', 'action' => 'add')); ?> </li>
+		<li><?php echo $html->link('Add new status type', array('action' => 'add')); ?></li>
 	</ul>
 </div>

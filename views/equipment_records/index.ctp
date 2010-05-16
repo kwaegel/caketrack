@@ -5,11 +5,17 @@
 <div class="equipmentRecords index">
 <h2><?php __('Equipment Records');?></h2>
 <p>
-<?php
-echo $paginator->counter(array(
-'format' => __('Page %page% of %pages%, showing %current% records out of %count% total, starting on record %start%, ending on %end%', true)
-));
-?></p>
+	<?php
+	echo $paginator->counter(array(
+	'format' => __('Page %page% of %pages%, showing %current% records out of %count% total, starting on record %start%, ending on %end%', true)
+	));
+	?>
+</p>
+<div class="paging">
+	<?php echo $paginator->prev('<< '.__('previous', true), array(), null, array('class'=>'disabled'));?>
+ | 	<?php echo $paginator->numbers();?>
+	<?php echo $paginator->next(__('next', true).' >>', array(), null, array('class' => 'disabled'));?>
+</div>
 <table cellpadding="0" cellspacing="0">
 <tr>
 	<th><?php echo $paginator->sort('fund');?></th>
@@ -68,27 +74,13 @@ foreach ($equipmentRecords as $equipmentRecord):
 		<td class="actions">
 			<?php echo $html->link(__('View', true), array('action' => 'view', $equipmentRecord['EquipmentRecord']['id'])); ?>
 			<?php echo $html->link(__('Edit', true), array('action' => 'edit', $equipmentRecord['EquipmentRecord']['id'])); ?>
-			<?php //echo $html->link(__('Delete', true), array('action' => 'delete', $equipmentRecord['EquipmentRecord']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $equipmentRecord['EquipmentRecord']['id'])); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>
 </table>
 </div>
-<div class="paging">
-	<?php echo $paginator->prev('<< '.__('previous', true), array(), null, array('class'=>'disabled'));?>
- | 	<?php echo $paginator->numbers();?>
-	<?php echo $paginator->next(__('next', true).' >>', array(), null, array('class' => 'disabled'));?>
-</div>
 <div class="actions">
 	<ul>
-		<li><?php echo $html->link(__('New EquipmentRecord', true), array('action' => 'add')); ?></li>
-		<li><?php echo $html->link(__('List Members', true), array('controller' => 'members', 'action' => 'index')); ?> </li>
-		<li><?php echo $html->link(__('New Member', true), array('controller' => 'members', 'action' => 'add')); ?> </li>
-		<li><?php echo $html->link(__('List Equipment Types', true), array('controller' => 'equipment_types', 'action' => 'index')); ?> </li>
-		<li><?php echo $html->link(__('New Equipment Type', true), array('controller' => 'equipment_types', 'action' => 'add')); ?> </li>
-		<li><?php echo $html->link(__('List Status Types', true), array('controller' => 'status_types', 'action' => 'index')); ?> </li>
-		<li><?php echo $html->link(__('New Status Type', true), array('controller' => 'status_types', 'action' => 'add')); ?> </li>
+		<li><?php echo $html->link('Add new equipment record', array('action' => 'add')); ?></li>
 	</ul>
 </div>
-
-	<?php $debug->dump($equipmentRecords); ?>

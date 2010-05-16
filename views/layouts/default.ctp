@@ -30,8 +30,9 @@
 		<?php __('CakeTrack: an inventory tracking system: '); ?>
 		<?php echo $title_for_layout; ?>
 	</title>
-	<?php echo $html->script(array('prototype')); ?>
 	<?php
+		echo $this->Html->script('jquery-1.4.2');
+
 		echo $html->meta('icon');
 
 		// get global css files
@@ -48,12 +49,8 @@
 </head>
 <body>
 	<div id="container">
-		<div id="spinner" style="display: none; float: left;">
-			<?php echo $html->image('loadingSnake.gif'); ?>
-		</div>
-	
 		<div id="header">
-			<h1><?php echo $html->link(__('CakeTrack: an inventory tracking system', true), '/'); ?></h1>
+			<h1><?php echo $html->link('CakeTrack: an inventory tracking system', '/'); ?></h1>
 		</div>
 		
 		<div id="menu">
@@ -69,6 +66,7 @@
 		</div>
 		
 		<div id="content">
+			<?php echo $this->Html->image('loadingSnake.gif', array('id' => 'busy-indicator')); ?>
 
 			<?php
 				// show flash messages
@@ -98,6 +96,7 @@
 			echo "Debug dump \n";
 			$debug->dump($cakeDebug);
 		}
+		
 		echo $this->element('sql_dump');
 	?>
 </body>

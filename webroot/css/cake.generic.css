@@ -216,9 +216,8 @@ dd {
 }
 
 /* Ajax */
-div#spinner {
-	/*display: none;
-	float: right;*/
+#busy-indicator {
+	display: none;
 }
 
 ul {

@@ -9,7 +9,6 @@
 	<ul>
 		<li><?php echo $html->link('Edit equipment type name', array('action' => 'edit', $equipmentType['EquipmentType']['id'])); ?> </li>
 		<li><?php echo $html->link('List equipment types', array('action' => 'index')); ?> </li>
-		<li><?php echo $html->link('New equipment type', array('action' => 'add')); ?> </li>
 	</ul>
 </div>
 <div class="related">
@@ -74,11 +73,5 @@
 	<?php endforeach; ?>
 	</table>
 
-	</div>
-	
-	<div class="actions">
-		<ul>
-			<li><?php echo $html->link(__('New Equipment Record', true), array('controller' => 'equipment_records', 'action' => 'add'));?> </li>
-		</ul>
 	</div>
 </div>

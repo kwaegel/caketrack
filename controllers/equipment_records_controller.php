@@ -2,12 +2,11 @@
 class EquipmentRecordsController extends AppController {
 
 	var $name = 'EquipmentRecords';
-	var $helpers = array('Html', 'Form', 'Tracking');
-	var $components = array('Auth');
+	var $helpers = array('Tracking');
 	var $paginate = array(
 		'limit' => 20,
 		'order' => array(
-		'EquipmentRecord.tracking_number' => 'asc'
+			'EquipmentRecord.tracking_number' => 'asc'
 		)
 	);
 
@@ -166,6 +165,14 @@ class EquipmentRecordsController extends AppController {
 			$this->Session->setFlash(__('EquipmentRecord deleted', true));
 			$this->redirect(array('action'=>'index'));
 		}
+	}
+	
+	
+	functon search() {
+	
+	
+	
+	
 	}
 	
 	

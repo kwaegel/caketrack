@@ -2,12 +2,11 @@
 class LogsController extends AppController {
 
 	var $name = 'Logs';
-	var $helpers = array('Html', 'Form', 'tracking');
-
-	function index() {
-		$this->Log->recursive = -1;
-		$this->paginate = array(
-			'contain' => array(
+	var $helpers = array('Tracking', 'Js', 'Paginator');
+	var $components = array('RequestHandler'); 
+	
+	var $paginate = array(
+		'contain' => array(
 				'User',
 				'EquipmentRecord' => array(
 					'id',
@@ -16,12 +15,16 @@ class LogsController extends AppController {
 					
 				),
 				'Member'
-			),
-			'order' => array(
-				'Log.id' => 'desc'
-			)
-		);
-		$this->set('logs', $this->paginate());
+		),
+		'limit' => 20,
+		'order' => array(
+			'Log.id' => 'desc'
+		)
+	);
+
+	function index() {
+		$logs = $this->paginate('Log');
+		$this->set('logs', $logs);
 	}
 
 	function view($id = null) {
