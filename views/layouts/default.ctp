@@ -31,7 +31,7 @@
 		<?php echo $title_for_layout; ?>
 	</title>
 	<?php
-		echo $this->Html->script('jquery-1.4.2');
+		echo $html->script('jquery-1.4.2');
 
 		echo $html->meta('icon');
 
@@ -63,6 +63,9 @@
 				<li><?php echo $html->link(__('Logs', true), array('controller' => 'logs', 'action' => 'index')); ?></li>
 				<li><?php echo $html->link(__('Logout', true), array('controller' => 'users', 'action' => 'logout')); ?></li>
 			</ul>
+			<div id="searchBox">
+				
+			</div>
 		</div>
 		
 		<div id="content">
@@ -96,8 +99,14 @@
 			echo "Debug dump \n";
 			$debug->dump($cakeDebug);
 		}
+		else
+		{
+			echo "No debug data set\n";
+		}
 		
 		echo $this->element('sql_dump');
+		
+		echo $js->writeBuffer(); // Write cached scripts
 	?>
 </body>
 </html>

@@ -168,8 +168,25 @@ class EquipmentRecordsController extends AppController {
 	}
 	
 	
-	functon search() {
-	
+	function search() {
+		
+		// get key=>value pairs from the url
+		$params = $this->params['url'];
+		
+		// check if we have any url data to parse. The params will always include 
+		// the url of the calling view, so check for length > 1.
+		if (count($params) > 1)
+		{
+			$this->set('cakeDebug', $params);
+		}
+		else
+		{
+			$this->set('cakeDebug', 'No url data.');
+		}
+		
+		
+		
+		// build search query
 	
 	
 	
