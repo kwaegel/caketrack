@@ -38,6 +38,7 @@
 		// get global css files
 		echo $html->css('cake.generic');
 		echo $html->css('menu');
+		echo $html->css('autocomplete');
 		
 		// get controller set css files
 		if(isset($CSS)){
@@ -56,6 +57,7 @@
 		<div id="menu">
 			<p>Menu</p>
 			<ul>
+				<li><?php echo $html->link(__('Search', true), array('controller' => 'search', 'action' => 'index')); ?></li>
 				<li><?php echo $html->link(__('Equipment Records', true), array('controller' => 'equipment_records', 'action' => 'index')); ?></li>
 				<li><?php echo $html->link(__('Members', true), array('controller' => 'members', 'action' => 'index')); ?></li>
 				<li><?php echo $html->link(__('Equipment Types', true), array('controller' => 'equipment_types', 'action' => 'index')); ?></li>

@@ -1,35 +1,39 @@
-<?php /* File: /app/views/people/index.ctp */?>
+<?php /* File: /app/views/search/index.ctp */?>
 <div>
 <h3>Testing</h3>
 <?php
+	// Open the form
 	echo $form->create(false, array(
 		'id'		=>'livesearch',
-		'type'	=>'get',
-		//'url'	=>'/search/search'
-		//'default'	=>false
+		'type'		=>'get',
+		'default'	=>false
 		)
 	);
 	
-	echo $form->text('query', array(
+	// Create a text field
+	echo $form->text('searchbox', array(
 		'label'=>'Search:', 
 		'type'=>'get', 
-		'url'=>'/search/search'
+		'url'=>'/search/search',
+		'id'=>'autocomplete'
 		)
 	);
 	
+	// Show loading icon
 	echo '<div id="loading" style="display: none; ">' . $html->image("spinner.gif") . '</div>';
 	
+	// Close the form
 	echo $form->end();
 	
-	// update results div when typing
-	$js->get('#query');
-	
+	// update results div while typing
+	$js->get('#autocomplete');
 	$js->event(
 		'keyup',
+		
 		$js->request(
-			'/search/search',
+			'/search/autocomplete',
 			array(	// options
-				'method'=>'get',
+				'method'=>'post',
 				'async' => true,
 				'update'=>'#view',
 				'dataExpression'=>true,

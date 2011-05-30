@@ -6,27 +6,67 @@ class SearchController extends AppController {
 
 	function index() {}
 	
-	function search($json = null) {
+	function autocomplete($json = null) {
 	
 		if ($this->RequestHandler->isAjax())
-		{
-		
-		
-		}
-		
-		if (!empty($this->params['form']['query']))
-		{
-			$query = $this -> Sanitize -> paranoid($this->params['form']['query']);
+		{	
+			// Extract search terms
+			$query = $this->params['form']['searchbox'];
+			$this->set('query', $query);
+			
 			if (strlen($query) > 0)
-			{
-				// replace this with a query that searchs multable models
-			    $result = $this -> Person -> findAll("name_first LIKE '%".$query."%' OR name_second LIKE '%".$query."%'");
-			    $this->set('result', $result);
+			{	
+				$contains = array();
+				
+				// search the members model
+				$memberSearchConditions = array("name LIKE"=>'%'.$query.'%');
+			    $memberResults = ClassRegistry::init('Member')-> find('all', array(
+					'conditions'=>$memberSearchConditions,
+					'limit'=>5
+				));
+				
+				// Search the equipment list
+				$fund = 'relief';
+				if(stripos($query, 'gf') !== false)
+				{
+					// search general fund
+					$fund = 'general';
+					//$query = str_ireplace('gf', '', $query);
+					$query = ereg_replace("[^0-9]", "", $query );	// reduce to numbers
+				}
+				
+				$equipmentSearchConditions = array(
+					'and' => array(
+						'Fund.name'=>$fund,
+						"tracking_number LIKE"=>$query.'%'
+					)
+				);
+				$equipmentContain=array('Fund.name');
+			    $equipmentResults = ClassRegistry::init('EquipmentRecord')-> find('all', array(
+					'conditions'=>$equipmentSearchConditions,
+					'contain'=>$equipmentContain,
+					'fields'=>array('id', 'tracking_number'),
+					'limit'=>5
+					)
+				);
+				
+				// Pass the search results to the view
+				$results = array_merge($memberResults, $equipmentResults);
+				if(count($results) > 0)
+				{
+					$this->set('results', $results);
+				}
+				else
+				{
+					$this->set('results', 'No results found');
+				}
 			    $this->layout = 'ajax';
 			}
 		}
-		
-		$this->set('result', $this);
+		else
+		{
+			$this->set('result', 'No search term entered');
+		}
 		
 		//$this->set('cakeDebug', $this->params);
 	}

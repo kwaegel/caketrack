@@ -1,0 +1,14 @@
+/*
+	The CSS file for the auto-complete menu
+*/
+.ac-item {
+	/*color: #003d4c;*/
+	color: #000000;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+.ac-typed {
+	font-weight: normal;
+	text-decoration: underline;
+}
