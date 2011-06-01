@@ -6,52 +6,9 @@ class SearchController extends AppController {
 
 	function index() {}
 	
-	//function beforeFilter() {
-		//$this->RequestHandler->setContent('json');
-	//}
-	
-	function test()
-	{
-		Configure::write('debug', '0');  //set debug to 0 for this function because debugging info breaks the XMLHttpRequest
-		//$this->layout = "ajax"; 
-		//$this->RequestHandler->setContent('json');
-		//$this->header('Content-Type: application/json');
-		
-		//$this->autoLayout = false;
-		//$this->autoRender=false;
-		//$query = $_GET['term'];
-		
-		$availableTags = array(
-			"ActionScript",
-			"AppleScript",
-			"Asp",
-			"BASIC",
-			"C",
-			"C++",
-			"Clojure",
-			"COBOL",
-			"ColdFusion",
-			"Erlang",
-			"Fortran",
-			"Groovy",
-			"Haskell",
-			"Java",
-			"JavaScript",
-			"JawaScript",
-			"Lisp",
-			"Perl",
-			"PHP",
-			"Python",
-			"Ruby",
-			"Scala",
-			"Scheme"
-		);
-		
-		echo json_encode($availableTags);
-	}
-	
 	function autocomplete() {
 		Configure::write('debug', '0');  //set debug to 0 for this function because debugging info breaks the XMLHttpRequest
+		$this->header('Content-Type: application/json');
 	
 		if ($this->RequestHandler->isAjax())
 		{	
