@@ -31,7 +31,8 @@
 		<?php echo $title_for_layout; ?>
 	</title>
 	<?php
-		echo $html->script('jquery-1.4.2');
+		echo $html->script('jquery-1.6.1.min');
+		echo $html->script('jquery-ui-1.8.13.min');
 
 		echo $html->meta('icon');
 
@@ -39,6 +40,7 @@
 		echo $html->css('cake.generic');
 		echo $html->css('menu');
 		echo $html->css('autocomplete');
+		echo $html->css('smoothness/jquery-ui-1.8.13');
 		
 		// get controller set css files
 		if(isset($CSS)){

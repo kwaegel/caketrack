@@ -6,13 +6,57 @@ class SearchController extends AppController {
 
 	function index() {}
 	
-	function autocomplete($json = null) {
+	//function beforeFilter() {
+		//$this->RequestHandler->setContent('json');
+	//}
+	
+	function test()
+	{
+		Configure::write('debug', '0');  //set debug to 0 for this function because debugging info breaks the XMLHttpRequest
+		//$this->layout = "ajax"; 
+		//$this->RequestHandler->setContent('json');
+		//$this->header('Content-Type: application/json');
+		
+		//$this->autoLayout = false;
+		//$this->autoRender=false;
+		//$query = $_GET['term'];
+		
+		$availableTags = array(
+			"ActionScript",
+			"AppleScript",
+			"Asp",
+			"BASIC",
+			"C",
+			"C++",
+			"Clojure",
+			"COBOL",
+			"ColdFusion",
+			"Erlang",
+			"Fortran",
+			"Groovy",
+			"Haskell",
+			"Java",
+			"JavaScript",
+			"JawaScript",
+			"Lisp",
+			"Perl",
+			"PHP",
+			"Python",
+			"Ruby",
+			"Scala",
+			"Scheme"
+		);
+		
+		echo json_encode($availableTags);
+	}
+	
+	function autocomplete() {
+		Configure::write('debug', '0');  //set debug to 0 for this function because debugging info breaks the XMLHttpRequest
 	
 		if ($this->RequestHandler->isAjax())
 		{	
 			// Extract search terms
-			$query = $this->params['form']['searchbox'];
-			$this->set('query', $query);
+			$query = $_GET['term'];
 			
 			if (strlen($query) > 0)
 			{	
@@ -31,7 +75,6 @@ class SearchController extends AppController {
 				{
 					// search general fund
 					$fund = 'general';
-					//$query = str_ireplace('gf', '', $query);
 					$query = ereg_replace("[^0-9]", "", $query );	// reduce to numbers
 				}
 				
@@ -50,25 +93,33 @@ class SearchController extends AppController {
 					)
 				);
 				
+				//Convert results into JSON format
+				$i=0;
+				foreach($memberResults as $result){
+					$response[$i++]['label']=$result['Member']['name'];
+				}
+				foreach($equipmentResults as $result){
+					if ($fund == 'general')
+					{
+						$response[$i++]['label']= 'GF '.$result['EquipmentRecord']['tracking_number'];	
+					}
+					else
+					{
+						$response[$i++]['label']=$result['EquipmentRecord']['tracking_number'];	
+					}
+				}
+				//$this->set('response', $response);
+				//echo json_encode($response);
+				$this->set('results', $response);
+				
 				// Pass the search results to the view
 				$results = array_merge($memberResults, $equipmentResults);
-				if(count($results) > 0)
-				{
-					$this->set('results', $results);
-				}
-				else
-				{
-					$this->set('results', 'No results found');
-				}
-			    $this->layout = 'ajax';
+				//$this->set('results', $results);
+				$this->set('entries', json_encode($results));
 			}
 		}
-		else
-		{
-			$this->set('result', 'No search term entered');
-		}
 		
-		//$this->set('cakeDebug', $this->params);
+		$this->set('cakeDebug', $this->params);
 	}
 
 }
