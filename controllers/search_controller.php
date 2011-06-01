@@ -6,6 +6,11 @@ class SearchController extends AppController {
 
 	function index() {}
 	
+	function search()
+	{
+	
+	}
+	
 	function autocomplete() {
 		Configure::write('debug', '0');  //set debug to 0 for this function because debugging info breaks the XMLHttpRequest
 		$this->header('Content-Type: application/json');
@@ -75,8 +80,6 @@ class SearchController extends AppController {
 				$this->set('entries', json_encode($results));
 			}
 		}
-		
-		$this->set('cakeDebug', $this->params);
 	}
 
 }

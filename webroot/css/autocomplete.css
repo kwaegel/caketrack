@@ -12,3 +12,20 @@
 	font-weight: normal;
 	text-decoration: underline;
 }
+/*
+div.submit input {
+	background-image: url(../img/buttons/KnobForward.png);
+	background-repeat: no-repeat;
+	color: transparent;
+	border: 0;
+	text-indent: -1000px;
+	display: block;
+	font-size: 0px;
+	line-height: 0px;
+	width: 32px;
+	height: 32px;
+	overflow: hidden;
+	cursor: pointer;
+	cursor: hand; /* for IE 5.x */ 
+}
+*/

@@ -6,12 +6,7 @@
 </style>
 <?php
 	// Open the form
-	echo $form->create(false, array(
-		'id'		=>'livesearch',
-		'type'		=>'get',
-		'default'	=>false
-		)
-	);
+	echo $form->create(false, array('action'=>'search', 'id'=>'search'));
 	
 	// Create a text field
 	echo $form->text('searchbox', array(
@@ -21,6 +16,8 @@
 		'id'=>'autocomplete'
 		)
 	);
+	
+	echo $this->Form->submit("->");
 	
 	// Show loading icon
 	echo '<div id="loading" style="display: none; ">' . $html->image("spinner.gif") . '</div>';
@@ -32,7 +29,14 @@
 	$(function() {
 		$( "#autocomplete" ).autocomplete({
 			source: "search/autocomplete",
-			minLength: 2
+			minLength: 2,
+			// The select function submits the form if enter is pressed on one of the menu items
+			select: function(event, ui) {
+				if(ui.item){
+					$("#autocomplete").val(ui.item.value);
+					$('#search').submit();
+				}
+			}
 		});
 	});
 	</script>
