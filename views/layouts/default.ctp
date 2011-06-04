@@ -36,8 +36,8 @@
 
 		echo $html->meta('icon');
 
-		// get global css files
-		echo $html->css('cake.generic');
+		// Print global css files
+		echo $html->css('cakeTrack-screen');
 		echo $html->css('menu');
 		echo $html->css('autocomplete');
 		echo $html->css('smoothness/jquery-ui-1.8.13');
@@ -50,6 +50,9 @@
 		echo $scripts_for_layout;
 	?>
 </head>
+<style>
+	.ui-autocomplete-loading { background: white url('img/spinner.gif') right center no-repeat; }
+</style>
 <body>
 	<div id="container">
 		<div id="header">
@@ -65,6 +68,30 @@
 				<li><?php echo $html->link(__('Equipment Types', true), array('controller' => 'equipment_types', 'action' => 'index')); ?></li>
 				<li><?php echo $html->link(__('Status Types', true), array('controller' => 'status_types', 'action' => 'index')); ?></li>
 				<li><?php echo $html->link(__('Logs', true), array('controller' => 'logs', 'action' => 'index')); ?></li>
+				<li>
+				<p class="searchHeading">Search:</p>
+				<?php
+					// Open the form
+					echo $form->create(false, array('id'=>'search', 'url'=>array('controller' => 'search', 'action'=>'search')));
+					
+					// Create a text field
+					echo $form->text('searchbox', array(
+						'label'=>'Search:', 
+						'type'=>'get', 
+						'url'=>'/search/search',
+						'id'=>'autocomplete'
+						)
+					);
+					
+					echo $this->Form->submit("->");
+					
+					// Show loading icon
+					echo '<div id="loading" style="display: none; ">' . $html->image("spinner.gif") . '</div>';
+					
+					// Close the form
+					echo $form->end();
+					?>
+				</li>
 				<li><?php echo $html->link(__('Logout', true), array('controller' => 'users', 'action' => 'logout')); ?></li>
 			</ul>
 			<div id="searchBox">
@@ -112,5 +139,20 @@
 		
 		echo $js->writeBuffer(); // Write cached scripts
 	?>
+	<script>
+	$(function() {
+		$( "#autocomplete" ).autocomplete({
+			source: "search/autocomplete",
+			minLength: 2,
+			// The select function submits the form if enter is pressed on one of the menu items
+			select: function(event, ui) {
+				if(ui.item){
+					$("#autocomplete").val(ui.item.value);
+					$('#search').submit();
+				}
+			}
+		});
+	});
+	</script>
 </body>
 </html>

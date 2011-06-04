@@ -1,9 +1,6 @@
 <?php /* File: /app/views/search/index.ctp */?>
 <div>
-<h3>Testing</h3>
-<style>
-	.ui-autocomplete-loading { background: white url('img/spinner.gif') right center no-repeat; }
-</style>
+<h3>Search</h3>
 <?php
 	// Open the form
 	echo $form->create(false, array('action'=>'search', 'id'=>'search'));

@@ -6,25 +6,38 @@
 	font-size: 1.2em;
 	width: 11em;
 	background: lightBlue;
+	text-align: center;
 }
+
+#menu  p:first-child {
+	color: black;
+	font-weight: bold;
+	margin: 0;
+	padding-bottom: 0.5em;
+	padding-top: 0.5em;
+}
+
 #menu ul {
 	list-style: none;
 	margin-left: 0;
+	margin-right: 0;
 	/*padding-left: 1em;
 	text-indent: -1em;*/
 }
 #menu li {
 	padding-top: .3em;
 	padding-bottom: .3em;
-	text-align: center;
 }
-#menu p {
-	text-align: center;
+
+#menu .searchHeading
+{
+	text-align: left;
 	color: black;
 	font-weight: bold;
 	padding-bottom: 0.5em;
 	padding-top: 0.5em;
 }
+
 #menu a {
 	color: #003d4c;
 	text-decoration: underline;

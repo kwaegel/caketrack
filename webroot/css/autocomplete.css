@@ -12,6 +12,10 @@
 	font-weight: normal;
 	text-decoration: underline;
 }
+
+.ui-autocomplete-loading {
+	background: white url('img/spinner.gif') right center no-repeat;
+}
 /*
 div.submit input {
 	background-image: url(../img/buttons/KnobForward.png);
