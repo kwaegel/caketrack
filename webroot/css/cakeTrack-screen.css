@@ -155,9 +155,16 @@ table tr td {
 	text-align: center;
 	vertical-align: top;
 }
+
 table tr.altrow td {
 	background: #f4f4f4;
 }
+
+li.altrow {
+	background: #f4f4f4;
+}
+
+
 table tr:hover > td {		/* line hover */
 	background: 	#A6F1A6;
 }

@@ -1,5 +1,5 @@
 <div class="equipmentRecords index">
-<h2>Showig results for: <? echo $searchString?></h2>
+<h2>Showing results for: <? echo $searchString?></h2>
 <ul>
 <?php
 if(isset($results))
@@ -21,7 +21,7 @@ if(isset($results))
 			}
 			else if (array_key_exists('EquipmentRecord', $result))
 			{
-				echo 'Equipment #: ';
+				echo 'Equipment: ';
 				$tracking->makeTrackingLink($result['EquipmentRecord']['id'], $result['Fund']['name'], $result['EquipmentRecord']['tracking_number']);
 			}
 		echo '</li>';
