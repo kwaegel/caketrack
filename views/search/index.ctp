@@ -14,7 +14,7 @@
 		)
 	);
 	
-	echo $this->Form->submit("->");
+	echo $this->Form->submit("Search");
 	
 	// Show loading icon
 	echo '<div id="loading" style="display: none; ">' . $html->image("spinner.gif") . '</div>';

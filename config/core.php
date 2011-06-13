@@ -121,7 +121,7 @@
  * Set the value of 'Session.save' to <name> to utilize it in CakePHP.
  *
  * To use database sessions, run the app/config/schema/sessions.php schema using
- * the cake shell command: cake schema run create Sessions
+ * the cake shell command: cake schema create Sessions
  *
  */
 	Configure::write('Session.save', 'php');
@@ -158,6 +158,11 @@
 
 /**
  * The name of CakePHP's session cookie.
+ *
+ * Note the guidelines for Session names states: "The session name references
+ * the session id in cookies and URLs. It should contain only alphanumeric
+ * characters."
+ * @link http://php.net/session_name
  */
 	Configure::write('Session.cookie', 'CAKEPHP');
 
@@ -174,7 +179,8 @@
 
 /**
  * When set to false, HTTP_USER_AGENT will not be checked
- * in the session
+ * in the session. You might want to set the value to false, when dealing with
+ * older versions of IE, Chrome Frame or certain web-browsing devices and AJAX
  */
 	Configure::write('Session.checkAgent', true);
 
@@ -183,14 +189,14 @@
  * in 'Session.timeout' is multiplied according to the settings here.
  * Valid values:
  *
- * 'high'	Session timeout in 'Session.timeout' x 10
- * 'medium'	Session timeout in 'Session.timeout' x 100
- * 'low'		Session timeout in 'Session.timeout' x 300
+ * 'high'   Session timeout in 'Session.timeout' x 10
+ * 'medium' Session timeout in 'Session.timeout' x 100
+ * 'low'    Session timeout in 'Session.timeout' x 300
  *
  * CakePHP session IDs are also regenerated between requests if
  * 'Security.level' is set to 'high'.
  */
-	Configure::write('Security.level', 'high');
+	Configure::write('Security.level', 'medium');
 
 /**
  * A random string used in security hashing methods.
@@ -291,8 +297,8 @@
  * 			'127.0.0.1:11211' // localhost, default port 11211
  * 		), //[optional]
  * 		'compress' => false, // [optional] compress data in Memcache (slower, but uses less memory)
+ * 		'persistent' => true, // [optional] set this to false for non-persistent connections
  *	));
  *
  */
 	Cache::config('default', array('engine' => 'File'));
-?>

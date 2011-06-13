@@ -42,7 +42,6 @@ foreach ($equipmentRecords as $equipmentRecord):
 		</td>
 		<td>
 			<?php
-				//Debugger::log($equipmentRecord, $level='dev');
 				$tracking->makeTrackingLink($equipmentRecord['EquipmentRecord']['id'], $equipmentRecord['Fund']['name'], $equipmentRecord['EquipmentRecord']['tracking_number']);			
 			?>
 		</td>

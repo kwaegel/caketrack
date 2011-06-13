@@ -62,7 +62,6 @@
 		<div id="menu">
 			<p>Menu</p>
 			<ul>
-				<li><?php echo $html->link(__('Search', true), array('controller' => 'search', 'action' => 'index')); ?></li>
 				<li><?php echo $html->link(__('Equipment Records', true), array('controller' => 'equipment_records', 'action' => 'index')); ?></li>
 				<li><?php echo $html->link(__('Members', true), array('controller' => 'members', 'action' => 'index')); ?></li>
 				<li><?php echo $html->link(__('Equipment Types', true), array('controller' => 'equipment_types', 'action' => 'index')); ?></li>
@@ -72,18 +71,17 @@
 				<p class="searchHeading">Search:</p>
 				<?php
 					// Open the form
-					echo $form->create(false, array('id'=>'search', 'url'=>array('controller' => 'search', 'action'=>'search')));
+					echo $form->create(false, array('id'=>'search', 'url'=>array('controller' => 'search', 'action'=>'results')));
 					
 					// Create a text field
 					echo $form->text('searchbox', array(
 						'label'=>'Search:', 
-						'type'=>'get', 
-						'url'=>'/search/search',
+						'type'=>'get',
 						'id'=>'autocomplete'
 						)
 					);
 					
-					echo $this->Form->submit("->");
+					echo $this->Form->submit("Search");
 					
 					// Show loading icon
 					echo '<div id="loading" style="display: none; ">' . $html->image("spinner.gif") . '</div>';
@@ -142,7 +140,7 @@
 	<script>
 	$(function() {
 		$( "#autocomplete" ).autocomplete({
-			source: "search/autocomplete",
+			source: "<?= $session->base ?>/search/autocomplete",
 			minLength: 2,
 			// The select function submits the form if enter is pressed on one of the menu items
 			select: function(event, ui) {
