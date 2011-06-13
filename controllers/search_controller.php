@@ -42,7 +42,7 @@ class SearchController extends AppController {
 			$equipmentSearchConditions = array(
 				'and' => array(
 					'Fund.name'=>$fund,
-					"tracking_number LIKE"=>$query.'%'
+					"tracking_number LIKE"=>'%'.$query.'%'
 				)
 			);
 			$equipmentContain=array('Fund.name');
