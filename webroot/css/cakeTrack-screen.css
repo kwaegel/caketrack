@@ -87,13 +87,17 @@ ul, li {
 }
 
 #header{
-	padding: 10px 20px;
+	padding: 5px 20px;
+	background: #003d4c;
+	border-radius: 1em 1em;
+	margin-bottom: 5px;
+	margin-top: 5px;
 }
 #header h1 {
-	background: #003d4c url('../img/cake.icon.gif') no-repeat left;
+	display: inline;
+	background: transparent url('../img/cake.icon.gif') no-repeat left;
 	color: #fff;
-	padding: .2em 40px;
-	-moz-border-radius: 1em 1em;
+	padding: .2em 25px;
 }
 #header h1 a {
 	color: #fff;
@@ -106,6 +110,14 @@ ul, li {
 	background: #003d4c;
 	text-decoration: underline;
 }
+#header .logout {
+	float: right;
+}
+
+#header .logout a {
+	color: white;
+}
+
 #content{
 	background: #fff;
 	/*clear: both;*/

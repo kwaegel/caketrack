@@ -15,7 +15,7 @@ class UsersController extends AppController {
 			$this->Session->setFlash(__('Invalid User.', true));
 			$this->redirect(array('action'=>'index'));
 		}
-		//$this->User->contain('Log', 'Log.EquipmentRecord.Fund');
+		
 		$this->set('user', $this->User->read(null, $id));
 		
 		// get pages of logs
@@ -44,6 +44,10 @@ class UsersController extends AppController {
 
 	}
 	
+	function beforeRender() {
+		parent::beforeRender();
+	}
+	
 	function login() {
 		// No form processing needed, Auth does it automatically
 	}
@@ -55,7 +59,7 @@ class UsersController extends AppController {
 	function register() {
 		if (!empty($this->data)) {
 		
-			if ($this->data['User']['password'] == $this->Auth->password($this->data['User']['confirm_password'])) {
+			if ($this->data['User']['password'] === $this->Auth->password($this->data['User']['confirm_password'])) {
 				$this->User->create();
 				
 				if ($this->User->save($this->data)){

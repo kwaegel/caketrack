@@ -57,16 +57,29 @@
 	<div id="container">
 		<div id="header">
 			<h1><?php echo $html->link('CakeTrack: an inventory tracking system', '/'); ?></h1>
+			<span class="logout">
+				Welcome <? 
+					if(isset($user['User']['username']))
+					{
+						echo $user['User']['username'];
+						echo ' (', $html->link('Logout', array('controller' => 'users', 'action' => 'logout')), ')';
+					}
+					else
+					{
+						echo 'Guest (',$html->link('Login', array('controller' => 'users', 'action' => 'login')), ')';
+					}
+					?>
+			</span>
 		</div>
 		
 		<div id="menu">
 			<p>Menu</p>
 			<ul>
-				<li><?php echo $html->link(__('Equipment Records', true), array('controller' => 'equipment_records', 'action' => 'index')); ?></li>
-				<li><?php echo $html->link(__('Members', true), array('controller' => 'members', 'action' => 'index')); ?></li>
-				<li><?php echo $html->link(__('Equipment Types', true), array('controller' => 'equipment_types', 'action' => 'index')); ?></li>
-				<li><?php echo $html->link(__('Status Types', true), array('controller' => 'status_types', 'action' => 'index')); ?></li>
-				<li><?php echo $html->link(__('Logs', true), array('controller' => 'logs', 'action' => 'index')); ?></li>
+				<li><?php echo $html->link('Equipment Records', array('controller' => 'equipment_records', 'action' => 'index')); ?></li>
+				<li><?php echo $html->link('Members', array('controller' => 'members', 'action' => 'index')); ?></li>
+				<li><?php echo $html->link('Equipment Types', array('controller' => 'equipment_types', 'action' => 'index')); ?></li>
+				<li><?php echo $html->link('Status Types', array('controller' => 'status_types', 'action' => 'index')); ?></li>
+				<li><?php echo $html->link('Logs', array('controller' => 'logs', 'action' => 'index')); ?></li>
 				<li>
 				<p class="searchHeading">Search:</p>
 				<?php
@@ -90,7 +103,6 @@
 					echo $form->end();
 					?>
 				</li>
-				<li><?php echo $html->link(__('Logout', true), array('controller' => 'users', 'action' => 'logout')); ?></li>
 			</ul>
 			<div id="searchBox">
 				
@@ -128,11 +140,6 @@
 			echo "Debug dump \n";
 			$debug->dump($cakeDebug);
 		}
-		else
-		{
-			echo "No debug data set\n";
-		}
-		
 		echo $this->element('sql_dump');
 		
 		echo $js->writeBuffer(); // Write cached scripts
