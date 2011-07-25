@@ -59,9 +59,9 @@
 			<h1><?php echo $html->link('CakeTrack: an inventory tracking system', '/'); ?></h1>
 			<span class="logout">
 				Welcome <? 
-					if(isset($user['User']['username']))
+					if(isset($userAuth['User']['username']))
 					{
-						echo $user['User']['username'];
+						echo $userAuth['User']['username'];
 						echo ' (', $html->link('Logout', array('controller' => 'users', 'action' => 'logout')), ')';
 					}
 					else

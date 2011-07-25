@@ -29,7 +29,10 @@ class UsersController extends AppController {
 				'Member'
 			)
 		);
-		$this->set('relatedLogs', $this->paginate('Log', array('Log.user_id'=>$id) ));
+		$logConditions = array('Log.user_id'=>$id);
+		$pages = $this->paginate($this->User->Log, $logConditions);
+		
+		$this->set('relatedLogs', $pages);
 	}
 	
 	function beforeFilter() {

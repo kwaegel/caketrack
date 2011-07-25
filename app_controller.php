@@ -1,6 +1,6 @@
 <?php
 class AppController extends Controller {
-	var $components = array('Auth', 'Session', 'RequestHandler');
+	var $components = array('Session', 'RequestHandler', 'Auth');
 
 	var $helpers = array('Html', 'Js'=>'Jquery', 'Form', 'Debug', 'Session');
  
@@ -15,7 +15,7 @@ class AppController extends Controller {
 	
 	function beforeRender() {
 		$this->set('userAuth', $this->Auth->user());
-		// In the views $user['User']['username'] would display the logged in users username
+		// In the views $userAuth['User']['username'] would display the logged in users username
 	}
 }
 ?>

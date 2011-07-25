@@ -53,12 +53,14 @@
 	</div>
 </div>
 <div class="actions">
-	<div class="ActionForm">
 	<?php
+	if ($this->data['Member']['name'] != 'None') {
+		echo "\t".'<div class="ActionForm">';
 		echo $form->create('EquipmentRecord', array('action' => 'unassign'));
 		echo $form->end('Unassign');
+		echo "\t</div>";
+	}
 	?>
-	</div>
 	<div class="ActionForm">
 	<?php echo $form->create('EquipmentRecord', array('action' => 'reassign'));?>
 	<?php echo $form->input('member_id'); ?>
