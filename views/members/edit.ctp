@@ -7,7 +7,7 @@
 		echo $form->input('name');
 	?>
 	</fieldset>
-<?php echo $form->end('Submit');?>
+<?php echo $form->end('Update Name');?>
 </div>
 <div class="actions">
 	<ul>

@@ -36,8 +36,8 @@ foreach ($members as $member):
 		</td>
 		<td class="actions">
 			<?php echo $html->link(__('View', true), array('action' => 'view', $member['Member']['id'])); ?>
-			<?php echo $html->link(__('Edit', true), array('action' => 'edit', $member['Member']['id'])); ?>
-			<?php echo $html->link(__('Delete', true), array('action' => 'delete', $member['Member']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $member['Member']['id'])); ?>
+			<?php echo $html->link(__('Edit Name', true), array('action' => 'edit', $member['Member']['id'])); ?>
+			<?php //echo $html->link(__('Delete', true), array('action' => 'delete', $member['Member']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $member['Member']['id'])); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>

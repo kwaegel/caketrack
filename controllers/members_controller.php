@@ -58,7 +58,7 @@ class MembersController extends AppController {
 			$userData = $this->Auth->user();
 			$this->data['Log']['0'] = array(
 				'user_id' => $userData['User']['id'],
-				'description' =>  'Added '. $this->data['Member']['name'] .' to the system.',
+				'description' =>  'Added member "'. $this->data['Member']['name'] .'" to the system.',
 			);
 			
 			// save all data
@@ -77,11 +77,26 @@ class MembersController extends AppController {
 			$this->redirect(array('action'=>'index'));
 		}
 		if (!empty($this->data)) {
-			if ($this->Member->save($this->data)) {
-				$this->Session->setFlash(__('The Member has been saved', true));
+		
+			// Get old record before save to log changes.
+			$oldRecord = $this->Member->findById($this->data['Member']['id']);
+			
+			// Create a log record of the name change
+			$oldName = $oldRecord['Member']['name'];
+			$newName = $this->data['Member']['name'];
+			
+			$userData = $this->Auth->user();
+			$this->data['Log']['0'] = array(
+				'user_id' => $userData['User']['id'],
+				'member_id' => $this->data['Member']['id'],
+				'description' =>  'Name changed from "'. $oldName .'" to "' . $newName.'".',
+			);
+		
+			if ($this->Member->saveAll($this->data)) {
+				$this->Session->setFlash('The Member name has been updated.');
 				$this->redirect(array('action'=>'index'));
 			} else {
-				$this->Session->setFlash(__('The Member could not be saved. Please, try again.', true));
+				$this->Session->setFlash('The Member name could not be changed. Please, try again.');
 			}
 		}
 		if (empty($this->data)) {

@@ -80,6 +80,7 @@
 				<li><?php echo $html->link('Equipment Types', array('controller' => 'equipment_types', 'action' => 'index')); ?></li>
 				<li><?php echo $html->link('Status Types', array('controller' => 'status_types', 'action' => 'index')); ?></li>
 				<li><?php echo $html->link('Logs', array('controller' => 'logs', 'action' => 'index')); ?></li>
+				<li><?php echo $html->link('User Accounts', array('controller' => 'users', 'action' => 'index')); ?></li>
 				<li>
 				<p class="searchHeading">Search:</p>
 				<?php
@@ -136,10 +137,15 @@
 		
 	</div>
 	<?php
+		$debugLevel = Configure::read('debug');
+		echo "Debug level is $debugLevel";
+		
 		if (isset($cakeDebug)) {
 			echo "Debug dump \n";
 			$debug->dump($cakeDebug);
 		}
+		//$debug->dump($userAuth);
+		
 		echo $this->element('sql_dump');
 		
 		echo $js->writeBuffer(); // Write cached scripts

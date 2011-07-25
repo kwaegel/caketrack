@@ -29,7 +29,7 @@ class UsersController extends AppController {
 				'Member'
 			)
 		);
-		$this->set('logs', $this->paginate('Log', array('Log.user_id'=>$id)));
+		$this->set('relatedLogs', $this->paginate('Log', array('Log.user_id'=>$id) ));
 	}
 	
 	function beforeFilter() {
@@ -56,21 +56,43 @@ class UsersController extends AppController {
 		$this->redirect($this->Auth->logout());		// don't need a logout.ctp view
 	}
 	
+	// Register a new user on the system.
 	function register() {
 		if (!empty($this->data)) {
 		
-			if ($this->data['User']['password'] === $this->Auth->password($this->data['User']['confirm_password'])) {
+			if ($this->data['User']['password'] === $this->Auth->password($this->data['User']['confirm_password'])) {				
+				// Make all users admins for now.
+				$this->data['User']['admin'] = 1;
+				
 				$this->User->create();
 				
-				if ($this->User->save($this->data)){
-					$this->Session->setFlash(__('Registration saved', true));
+				// Create a log recording when this user was added to the system.
+				$userAuth = $this->Auth->user();
+				
+				//$this->log($userAuth, LOG_DEBUG);
+				
+				$this->data['Log']['0'] = array(
+					'user_id' => $userAuth['User']['id'],
+					'description' =>  'Added user "'. $this->data['User']['username'] .'" to the system.',
+				);
+				
+				//$this->log($this->data, LOG_DEBUG);
+				
+				
+				if ($this->User->saveAll($this->data)){
+				
+					$this->log($this->data, LOG_DEBUG);
+					
+					$this->Session->setFlash('Registration saved');
 					$this->redirect(array('action'=>'index'));
 				} else {
-					$this->Session->setFlash(__('Registration error. Please, try again.', true));
+					$this->Session->setFlash('Registration error. Please, try again.');
 				}
-				
 			}
 		}		
+	}
+	
+	function delete() {
 	}
 
 

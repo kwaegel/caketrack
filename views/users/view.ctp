@@ -35,14 +35,14 @@
 <div class="actions">
 	<ul>
 		<li><?php echo $html->link(__('Edit User', true), array('action' => 'edit', $user['User']['id'])); ?> </li>
-		<li><?php echo $html->link(__('Delete User', true), array('action' => 'delete', $user['User']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $user['User']['id'])); ?> </li>
+		<!--<li><?php echo $html->link(__('Delete User', true), array('action' => 'delete', $user['User']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $user['User']['id'])); ?> </li>-->
 		<li><?php echo $html->link(__('User List', true), array('action' => 'index')); ?> </li>
 		<li><?php echo $html->link(__('View All Logs', true), array('controller' => 'logs', 'action' => 'index')); ?> </li>
 	</ul>
 </div>
 <div class="related">
 	<h3><?php __('Related Logs');?></h3>
-	<?php if (!empty($logs)): ?>
+	<?php if (!empty($relatedLogs)): ?>
 	<div class="paging">
 		<?php echo $paginator->prev('<< '.__('previous', true), array(), null, array('class'=>'disabled'));?>
 	 | 	<?php echo $paginator->numbers();?>
@@ -66,7 +66,7 @@
 		</tr>
 	<?php
 		$i = 0;
-		foreach ($logs as $log):
+		foreach ($relatedLogs as $log):
 			$class = null;
 			if ($i++ % 2 == 0) {
 				$class = ' class="altrow"';

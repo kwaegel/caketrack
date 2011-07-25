@@ -62,7 +62,7 @@
 	<div class="ActionForm">
 	<?php echo $form->create('EquipmentRecord', array('action' => 'reassign'));?>
 	<?php echo $form->input('member_id'); ?>
-	<?php echo $form->end('Change Member');?>
+	<?php echo $form->end('Change Assignment');?>
 	</div>
 	
 	<div class="ActionForm">

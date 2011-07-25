@@ -14,9 +14,8 @@ class AppController extends Controller {
 	}
 	
 	function beforeRender() {
-		$this->set('user', $this->Auth->user());
+		$this->set('userAuth', $this->Auth->user());
 		// In the views $user['User']['username'] would display the logged in users username
 	}
-	
 }
 ?>
