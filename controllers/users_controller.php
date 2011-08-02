@@ -96,6 +96,34 @@ class UsersController extends AppController {
 		}
 	}
 	
+	function resetPassword($id = null) {
+	
+		$isAdmin = $this->Auth->user('admin') == true;
+		$adminName = $this->Auth->user('username');
+		
+		if ($id && $isAdmin) {
+			$this->data = $this->User->findById($id);
+			$username = $this->data['User']['username'];
+			
+			// Change password
+			$this->data['User']['password'] = $username;
+			$this->data = $this->Auth->hashPasswords($this->data);
+			
+			// Record the password reset
+			$this->data['Log']['0'] = array(
+				'user_id' => $userData['User']['id'],
+				'description' =>  '"'. $username .'" had their password reset by"' . $adminName . '".',
+			);
+			
+			if ($this->User->saveAll($this->data)) {
+				$this->Session->setFlash('Password has been reset.');
+				$this->redirect(array('action'=>'view', $id));
+			} else {
+				$this->Session->setFlash('The password could not be reset. Please try again.');
+			}
+		}
+	}
+	
 	// Register a new user on the system.
 	function register() {
 		if (!empty($this->data)) {
@@ -115,8 +143,6 @@ class UsersController extends AppController {
 					'user_id' => $userAuth['User']['id'],
 					'description' =>  'Added user "'. $this->data['User']['username'] .'" to the system.',
 				);
-				
-				//$this->log($this->data, LOG_DEBUG);
 				
 				
 				if ($this->User->saveAll($this->data)){

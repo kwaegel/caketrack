@@ -44,8 +44,11 @@ foreach ($users as $user):
 			<?php echo $user['User']['admin']; ?>
 		</td>
 		<td class="actions">
-			<?php echo $html->link('View', array('action' => 'view', $user['User']['id'])); ?>
-			<?php echo $html->link('Edit', array('action' => 'edit', $user['User']['id'])); ?>
+			<?php
+				echo $html->link('View', array('action' => 'view', $user['User']['id'])); 
+				echo $html->link('Edit', array('action' => 'edit', $user['User']['id']));
+			?>
+			
 			<!--<?php //echo $html->link('Delete', array('action' => 'delete', $user['User']['id']), null, sprintf('Are you sure you want to delete # %s?', $user['User']['id'])); ?>-->
 		</td>
 	</tr>

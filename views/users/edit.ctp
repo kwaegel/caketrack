@@ -16,5 +16,16 @@
 		</li>-->
 		<li><?php echo $html->link(__('List Users', true), array('action' => 'index'));?></li>
 		<li><?php echo $html->link(__('List Logs', true), array('controller' => 'logs', 'action' => 'index')); ?> </li>
+		<?php
+			if ($this->Session->read('Auth.User.admin') == true) {
+				echo '<li>', $html->link(
+					'Reset password', 
+					array('action' => 'resetPassword', $this->data['User']['id']),
+					null,
+					//'Are you sure you want to reset the password of ' $this->data['User']['username']
+					sprintf('Are you sure you want to reset the password of user "%s"?', $this->data['User']['username'])
+					), '</li>';
+			}
+		?>
 	</ul>
 </div>
