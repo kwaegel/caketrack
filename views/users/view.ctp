@@ -27,7 +27,9 @@
 		</dd>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Admin'); ?></dt>
 		<dd<?php if ($i++ % 2 == 0) echo $class;?>>
-			<?php echo $user['User']['admin']; ?>
+			<?php
+				echo ($user['User']['admin'] == true) ? 'yes' : 'no';
+			?>
 			&nbsp;
 		</dd>
 	</dl>

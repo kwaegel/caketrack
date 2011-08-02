@@ -96,6 +96,92 @@ class UsersController extends AppController {
 		}
 	}
 	
+	function makeAdmin($id = null) {
+		$isAdmin = $this->Auth->user('admin') == true;
+		$adminName = $this->Auth->user('username');
+		
+		if ($id && $isAdmin) {
+			$this->data = $this->User->findById($id);
+			$username = $this->data['User']['username'];
+			
+			// Change password
+			$this->data['User']['admin'] = 1;
+			
+			// Record the password reset
+			$this->data['Log']['0'] = array(
+				'user_id' => $userData['User']['id'],
+				'description' =>  '"'. $username .'" was promoted to administrator by"' . $adminName . '".',
+			);
+			
+			if ($this->User->saveAll($this->data)) {
+				$this->Session->setFlash('User is now an administrator.');
+				$this->redirect(array('action'=>'view', $id));
+			} else {
+				$this->Session->setFlash('The user could not be promoted. Please try again.');
+			}
+		}
+	}
+	
+	function revokeAdmin($id = null) {
+		$isAdmin = $this->Auth->user('admin') == true;
+		$adminName = $this->Auth->user('username');
+		
+		if ($id && $isAdmin) {
+			$this->data = $this->User->findById($id);
+			$username = $this->data['User']['username'];
+			
+			// Change password
+			$this->data['User']['admin'] = 0;
+			
+			// Record the password reset
+			$this->data['Log']['0'] = array(
+				'user_id' => $userData['User']['id'],
+				'description' =>  '"'. $username .'" had administrative privileges revoked by "' . $adminName . '".',
+			);
+			
+			if ($this->User->saveAll($this->data)) {
+				$this->Session->setFlash('User is now an administrator.');
+				$this->redirect(array('action'=>'view', $id));
+			} else {
+				$this->Session->setFlash('The user could not be promoted. Please try again.');
+			}
+		}
+	}
+	
+	function changePassword($id = null) {
+		// Load user data
+		
+		if($id)
+		{
+			$userData = $this->User->findById($id);
+			$isCorrectUser = ($this->Auth->user('id') == $userData['User']['id']);
+			
+			$oldPassword = $this->Auth->password($this->data['User']['oldPassword']);
+			$isCorrectPassword = ($oldPassword == $userData['User']['password'] );
+			
+			if ($isCorrectUser && $isCorrectPassword) {
+				
+				// Change password
+				if($this->data['User']['newPassword'] == $this->data['User']['confirmNewPassword'])
+				{
+					$userData['User']['password'] = $this->data['User']['newPassword'];
+					$userData = $this->Auth->hashPasswords($userData);
+					
+					if ($this->User->saveAll($userData)) {
+						$this->Session->setFlash('Password has been changed.');
+						$this->redirect(array('action'=>'view', $id));
+					} else {
+						$this->Session->setFlash('The password could not be changed. Please try again.');
+					}
+				}
+			}
+			else
+			{
+				$this->Session->setFlash('Old password incorrect.');
+			}
+		}
+	}
+	
 	function resetPassword($id = null) {
 	
 		$isAdmin = $this->Auth->user('admin') == true;
@@ -135,12 +221,12 @@ class UsersController extends AppController {
 				$this->User->create();
 				
 				// Create a log recording when this user was added to the system.
-				$userAuth = $this->Auth->user();
+				$userAuthId = $this->Auth->user('id');
 				
-				//$this->log($userAuth, LOG_DEBUG);
+				$this->log($this->Auth->user(), LOG_DEBUG);
 				
 				$this->data['Log']['0'] = array(
-					'user_id' => $userAuth['User']['id'],
+					'user_id' => $userAuthId,
 					'description' =>  'Added user "'. $this->data['User']['username'] .'" to the system.',
 				);
 				

@@ -41,7 +41,9 @@ foreach ($users as $user):
 			<?php echo $user['User']['modified']; ?>
 		</td>
 		<td>
-			<?php echo $user['User']['admin']; ?>
+			<?php
+				echo ($user['User']['admin'] == true) ? 'yes' : '';
+			?>
 		</td>
 		<td class="actions">
 			<?php
