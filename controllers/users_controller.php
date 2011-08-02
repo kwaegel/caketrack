@@ -20,18 +20,21 @@ class UsersController extends AppController {
 		
 		// get pages of logs
 		$this->paginate = array(
+			'fields' => array('Log.created', 'Log.user_id', 'Log.equipment_record_id', 'Log.member_id', 'Log.description'),
+			'limit' => 10,
+			'order' => array(
+				'Log.id' => 'desc'
+			),
 			'contain' => array(
+				'User.username',
 				'EquipmentRecord' => array(
-					'id',
 					'Fund.name',
 					'tracking_number'
 				),
-				'Member'
+				'Member.name'
 			)
 		);
-		$logConditions = array('Log.user_id'=>$id);
-		$pages = $this->paginate($this->User->Log, $logConditions);
-		
+		$pages = $this->paginate($this->User->Log, array('Log.user_id'=>$id));
 		$this->set('relatedLogs', $pages);
 	}
 	
@@ -75,18 +78,18 @@ class UsersController extends AppController {
 			$oldRecord = $this->User->findById($this->data['User']['id']);
 			
 			// Create a log record of the name change
-			$oldName = $oldRecord['User']['name'];
-			$newName = $this->data['User']['name'];
+			$oldName = $oldRecord['User']['username'];
+			$newName = $this->data['User']['username'];
 			
 			$userData = $this->Auth->user();
 			$this->data['Log']['0'] = array(
 				'user_id' => $userData['User']['id'],
-				'description' =>  'Name changed from "'. $oldName .'" to "' . $newName.'".',
+				'description' =>  'Changed name of user "'. $oldName .'" to "' . $newName.'".',
 			);
 		
 			if ($this->User->saveAll($this->data)) {
 				$this->Session->setFlash('User name has been updated.');
-				$this->redirect(array('action'=>'index'));
+				$this->redirect(array('action'=>'view', $id));
 			} else {
 				$this->Session->setFlash('The User name could not be changed. Please, try again.');
 			}

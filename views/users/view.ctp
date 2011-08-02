@@ -40,64 +40,66 @@
 		<li><?php echo $html->link(__('View All Logs', true), array('controller' => 'logs', 'action' => 'index')); ?> </li>
 	</ul>
 </div>
-<div class="related">
-	<h3><?php __('Related Logs');?></h3>
-	<?php if (!empty($relatedLogs)): ?>
+
+<div class="logs">
+	<h3>History</h3>
 	<div class="paging">
+		<?php $paginator->options(array('update' => 'content', 'indicator' => 'spinner')); ?>
 		<?php echo $paginator->prev('<< '.__('previous', true), array(), null, array('class'=>'disabled'));?>
 	 | 	<?php echo $paginator->numbers();?>
 		<?php echo $paginator->next(__('next', true).' >>', array(), null, array('class' => 'disabled'));?>
 	</div>
 	<p>
 	<?php
-	echo $paginator->counter(array(
-	'format' => __('Page %page% of %pages%, showing %current% records out of %count% total, starting on record %start%, ending on %end%', true)
-	));
+		echo $paginator->counter(array(
+		'format' => __('Page %page% of %pages%, showing %current% records out of %count% total, starting on record %start%, ending on %end%', true)
+		));
 	?></p>
-	<table cellpadding = "0" cellspacing = "0">
-		<tr>
-			<th><?php __('Id'); ?></th>
-			<th><?php __('Created'); ?></th>
-			<th><?php __('Equipment Record Id'); ?></th>
-			<th><?php __('Member Id'); ?></th>
-			<th><?php __('Description'); ?></th>
-			<th><?php __('Comment'); ?></th>
-			<th class="actions"><?php __('Actions');?></th>
-		</tr>
+	<table cellpadding="0" cellspacing="0">
+	<tr>
+		<th>Created</th>
+		<th>Updated by</th>
+		<th>ID affected</th>
+		<th>Member affected</th>
+		<th>Description</th>
+	</tr>
 	<?php
-		$i = 0;
-		foreach ($relatedLogs as $log):
-			$class = null;
-			if ($i++ % 2 == 0) {
-				$class = ' class="altrow"';
-			}
-		?>
+	$i = 0;
+	foreach ($relatedLogs as $log):
+	//foreach ($member['Log'] as $log):
+		$class = null;
+		if ($i++ % 2 == 0) {
+			$class = ' class="altrow"';
+		}
+	?>
 		<tr<?php echo $class;?>>
-			<td><?php echo $log['Log']['id'];?></td>
-			<td><?php echo $log['Log']['created'];?></td>
 			<td>
-				<?php
-				if (isset($log['EquipmentRecord']['Fund']))
+				<?php echo $log['Log']['created']; ?>
+			</td>
+			<td>
+				<?php echo $html->link($log['User']['username'], array('controller' => 'users', 'action' => 'view', $log['Log']['user_id'])); ?>
+			</td>
+			<td>
+			<?php
+				if (isset($log['EquipmentRecord']['tracking_number']))
 				{
-					$tracking->makeTrackingLink($log['EquipmentRecord']['id'], $log['EquipmentRecord']['Fund']['name'], $log['EquipmentRecord']['tracking_number']);			
+					//echo $html->link($log['equipment_record_id'], array('controller' => 'equipment_records', 'action' => 'view', $log['EquipmentRecord']['id']));
+					$tracking->makeTrackingLink($log['Log']['equipment_record_id'], $log['EquipmentRecord']['Fund']['name'], $log['EquipmentRecord']['tracking_number']);			
 				}
-				?>
+			?>
 			</td>
 			<td>
-				<?php echo $html->link($log['Member']['name'], array('controller' => 'members', 'action' => 'view', $log['Member']['id'])); ?>
+			<?php
+				if(isset($log['EquipmentRecord']['member_id']) || true)
+				{
+					echo $html->link($log['Member']['name'], array('controller' => 'members', 'action' => 'view', $log['Log']['member_id']));
+				}
+			?>
 			</td>
-			<td><?php echo $log['Log']['description'];?></td>
-			<td><?php echo $log['Log']['comment'];?></td>
-			<td class="actions">
-				<?php echo $html->link(__('View', true), array('controller' => 'logs', 'action' => 'view', $log['Log']['id'])); ?>
-				<?php //echo $html->link(__('Edit', true), array('controller' => 'logs', 'action' => 'edit', $log['id'])); ?>
-				<?php //echo $html->link(__('Delete', true), array('controller' => 'logs', 'action' => 'delete', $log['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $log['id'])); ?>
+			<td>
+				<?php echo $log['Log']['description']; ?>
 			</td>
 		</tr>
 	<?php endforeach; ?>
 	</table>
-<?php endif; ?>
-
 </div>
-
-<?php //$debug->dump($logs); ?>

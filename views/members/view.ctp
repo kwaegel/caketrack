@@ -100,7 +100,7 @@
 	-->
 	
 	<div class="logs">
-	<h3><?php __('Related Logs');?></h3>
+		<h3>History</h3>
 		<div class="paging">
 			<?php $paginator->options(array('update' => 'content', 'indicator' => 'spinner')); ?>
 			<?php echo $paginator->prev('<< '.__('previous', true), array(), null, array('class'=>'disabled'));?>
@@ -118,11 +118,12 @@
 			<th>Created</th>
 			<th>Updated by</th>
 			<th>ID affected</th>
+			<th>Member affected</th>
 			<th>Description</th>
 		</tr>
 		<?php
 		$i = 0;
-		foreach ($logs as $log):
+		foreach ($relatedLogs as $log):
 		//foreach ($member['Log'] as $log):
 			$class = null;
 			if ($i++ % 2 == 0) {
@@ -140,12 +141,18 @@
 				<?php
 					if (isset($log['EquipmentRecord']['tracking_number']))
 					{
-						//echo $html->link($log['equipment_record_id'], array('controller' => 'equipment_records', 'action' => 'view', $log['EquipmentRecord']['id']));
 						$tracking->makeTrackingLink($log['Log']['equipment_record_id'], $log['EquipmentRecord']['Fund']['name'], $log['EquipmentRecord']['tracking_number']);			
 					}
 				?>
 				</td>
-				
+				<td>
+				<?php
+					if(isset($log['EquipmentRecord']['member_id']) || true)
+					{
+						echo $html->link($log['Member']['name'], array('controller' => 'members', 'action' => 'view', $log['Log']['member_id']));
+					}
+				?>
+				</td>
 				<td>
 					<?php echo $log['Log']['description']; ?>
 				</td>

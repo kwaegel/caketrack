@@ -33,7 +33,7 @@ class MembersController extends AppController {
 		
 		// get pages of all logs related to this member
 		$this->paginate = array(
-			'fields' => array('Log.created', 'Log.user_id', 'Log.equipment_record_id', 'Log.description'),
+			'fields' => array('Log.created', 'Log.user_id', 'Log.equipment_record_id', 'Log.member_id', 'Log.description'),
 			'limit' => 10,
 			'order' => array(
 				'Log.id' => 'desc'
@@ -41,13 +41,14 @@ class MembersController extends AppController {
 			'contain' => array(
 				'User.username',
 				'EquipmentRecord' => array(
-					'Fund' => array(
-						'name'
-					)
-				)
+					'Fund.name',
+					'tracking_number'
+				),
+				'Member.name'
 			)
 		);
-		$this->set('logs', $this->paginate('Log', array('Log.member_id'=>$id)));
+		$pages = $this->paginate('Log', array('Log.member_id'=>$id));
+		$this->set('relatedLogs', $pages);
 	}
 
 	function add() {
@@ -89,12 +90,12 @@ class MembersController extends AppController {
 			$this->data['Log']['0'] = array(
 				'user_id' => $userData['User']['id'],
 				'member_id' => $this->data['Member']['id'],
-				'description' =>  'Name changed from "'. $oldName .'" to "' . $newName.'".',
+				'description' =>  'Changed name of membel "'. $oldName .'" to "' . $newName.'".',
 			);
 		
 			if ($this->Member->saveAll($this->data)) {
 				$this->Session->setFlash('The Member name has been updated.');
-				$this->redirect(array('action'=>'index'));
+				$this->redirect(array('action'=>'view', $id));
 			} else {
 				$this->Session->setFlash('The Member name could not be changed. Please, try again.');
 			}
