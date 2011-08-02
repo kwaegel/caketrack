@@ -30,65 +30,64 @@
 <div class="related">
 	<h3><?php __('Related Equipment Records');?></h3>
 	<div>
-	<br />
-	<table cellpadding="0" cellspacing="0">
-	<tr>
-		<th><?php echo $paginator->sort('fund');?></th>
-		<th><?php echo $paginator->sort('tracking_number');?></th>
-		<th><?php echo $paginator->sort('equipment_type_id');?></th>
-		<th><?php echo $paginator->sort('serial_number');?></th>
-		<th><?php echo $paginator->sort('size');?></th>
-		<th><?php echo $paginator->sort('in_service');?></th>
-		<th><?php echo $paginator->sort('status_type_id');?></th>
-		<th><?php echo $paginator->sort('member_id');?></th>
-		<!--<th><?php //echo $paginator->sort('comments');?></th>-->
-		<th class="actions"><?php __('Actions');?></th>
-	</tr>
-	<?php
-	$i = 0;
-	foreach ($member['EquipmentRecord'] as $equipmentRecord):
-	//foreach ($equipmentRecords as $equipmentRecord):
-		$class = null;
-		if ($i++ % 2 == 0) {
-			$class = ' class="altrow"';
-		}
-	?>
-		<tr<?php echo $class;?>>
-			<td>
-				<?php echo $html->link($equipmentRecord['Fund']['name'], array('controller' => 'funds', 'action' => 'view', $equipmentRecord['Fund']['id'])); ?>
-			</td>
-			<td>
-				<?php 
-					$tracking->makeTrackingLink($equipmentRecord['id'], $equipmentRecord['Fund']['name'], $equipmentRecord['tracking_number']);
-				?>
-			</td>
-			<td>
-				<?php echo $html->link($equipmentRecord['EquipmentType']['type'], array('controller' => 'equipment_types', 'action' => 'view', $equipmentRecord['EquipmentType']['id'])); ?>
-			</td>
-			<td>
-				<?php echo $equipmentRecord['serial_number']; ?>
-			</td>
-			<td>
-				<?php echo $equipmentRecord['size']; ?>
-			</td>
-			<td>
-				<?php echo $equipmentRecord['in_service']; ?>
-			</td>
-			<td>
-				<?php echo $html->link($equipmentRecord['StatusType']['status_type'], array('controller' => 'status_types', 'action' => 'view', $equipmentRecord['StatusType']['id'])); ?>
-			</td>
-			<td>
-				<?php echo $member['Member']['name']; ?>
-			</td>
-			<td class="actions">
-				<?php echo $html->link(__('View', true), array('controller' => 'equipment_records','action' => 'view', $equipmentRecord['id'])); ?>
-				<?php echo $html->link(__('Edit', true), array('controller' => 'equipment_records','action' => 'edit', $equipmentRecord['id'])); ?>
-				<?php //echo $html->link(__('Delete', true), array('controller' => 'equipment_records','action' => 'delete', $equipmentRecord['EquipmentRecord']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $equipmentRecord['EquipmentRecord']['id'])); ?>
-			</td>
+		<br />
+		<table cellpadding="0" cellspacing="0">
+		<tr>
+			<th><?php echo $paginator->sort('fund');?></th>
+			<th><?php echo $paginator->sort('tracking_number');?></th>
+			<th><?php echo $paginator->sort('equipment_type_id');?></th>
+			<th><?php echo $paginator->sort('serial_number');?></th>
+			<th><?php echo $paginator->sort('size');?></th>
+			<th><?php echo $paginator->sort('in_service');?></th>
+			<th><?php echo $paginator->sort('status_type_id');?></th>
+			<th><?php echo $paginator->sort('member_id');?></th>
+			<!--<th><?php //echo $paginator->sort('comments');?></th>-->
+			<th class="actions"><?php __('Actions');?></th>
 		</tr>
-	<?php endforeach; ?>
-	</table>
-
+		<?php
+		$i = 0;
+		foreach ($member['EquipmentRecord'] as $equipmentRecord):
+		//foreach ($equipmentRecords as $equipmentRecord):
+			$class = null;
+			if ($i++ % 2 == 0) {
+				$class = ' class="altrow"';
+			}
+		?>
+			<tr<?php echo $class;?>>
+				<td>
+					<?php echo $html->link($equipmentRecord['Fund']['name'], array('controller' => 'funds', 'action' => 'view', $equipmentRecord['Fund']['id'])); ?>
+				</td>
+				<td>
+					<?php 
+						$tracking->makeTrackingLink($equipmentRecord['id'], $equipmentRecord['Fund']['name'], $equipmentRecord['tracking_number']);
+					?>
+				</td>
+				<td>
+					<?php echo $html->link($equipmentRecord['EquipmentType']['type'], array('controller' => 'equipment_types', 'action' => 'view', $equipmentRecord['EquipmentType']['id'])); ?>
+				</td>
+				<td>
+					<?php echo $equipmentRecord['serial_number']; ?>
+				</td>
+				<td>
+					<?php echo $equipmentRecord['size']; ?>
+				</td>
+				<td>
+					<?php echo $equipmentRecord['in_service']; ?>
+				</td>
+				<td>
+					<?php echo $html->link($equipmentRecord['StatusType']['status_type'], array('controller' => 'status_types', 'action' => 'view', $equipmentRecord['StatusType']['id'])); ?>
+				</td>
+				<td>
+					<?php echo $member['Member']['name']; ?>
+				</td>
+				<td class="actions">
+					<?php echo $html->link(__('View', true), array('controller' => 'equipment_records','action' => 'view', $equipmentRecord['id'])); ?>
+					<?php echo $html->link(__('Edit', true), array('controller' => 'equipment_records','action' => 'edit', $equipmentRecord['id'])); ?>
+					<?php //echo $html->link(__('Delete', true), array('controller' => 'equipment_records','action' => 'delete', $equipmentRecord['EquipmentRecord']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $equipmentRecord['EquipmentRecord']['id'])); ?>
+				</td>
+			</tr>
+		<?php endforeach; ?>
+		</table>
 	</div>
 	
 	<!--
@@ -101,68 +100,6 @@
 	
 	<div class="logs">
 		<h3>History</h3>
-		<div class="paging">
-			<?php $paginator->options(array('update' => 'content', 'indicator' => 'spinner')); ?>
-			<?php echo $paginator->prev('<< '.__('previous', true), array(), null, array('class'=>'disabled'));?>
-		 | 	<?php echo $paginator->numbers();?>
-			<?php echo $paginator->next(__('next', true).' >>', array(), null, array('class' => 'disabled'));?>
-		</div>
-		<p>
-		<?php
-			echo $paginator->counter(array(
-			'format' => __('Page %page% of %pages%, showing %current% records out of %count% total, starting on record %start%, ending on %end%', true)
-			));
-		?></p>
-		<table cellpadding="0" cellspacing="0">
-		<tr>
-			<th>Created</th>
-			<th>Updated by</th>
-			<th>ID affected</th>
-			<th>Member affected</th>
-			<th>Description</th>
-		</tr>
-		<?php
-		$i = 0;
-		foreach ($relatedLogs as $log):
-		//foreach ($member['Log'] as $log):
-			$class = null;
-			if ($i++ % 2 == 0) {
-				$class = ' class="altrow"';
-			}
-		?>
-			<tr<?php echo $class;?>>
-				<td>
-					<?php echo $log['Log']['created']; ?>
-				</td>
-				<td>
-					<?php echo $html->link($log['User']['username'], array('controller' => 'users', 'action' => 'view', $log['Log']['user_id'])); ?>
-				</td>
-				<td>
-				<?php
-					if (isset($log['EquipmentRecord']['tracking_number']))
-					{
-						$tracking->makeTrackingLink($log['Log']['equipment_record_id'], $log['EquipmentRecord']['Fund']['name'], $log['EquipmentRecord']['tracking_number']);			
-					}
-				?>
-				</td>
-				<td>
-				<?php
-					if(isset($log['EquipmentRecord']['member_id']) || true)
-					{
-						echo $html->link($log['Member']['name'], array('controller' => 'members', 'action' => 'view', $log['Log']['member_id']));
-					}
-				?>
-				</td>
-				<td>
-					<?php echo $log['Log']['description']; ?>
-				</td>
-			</tr>
-		<?php endforeach; ?>
-		</table>
+		<?php $loggingDisplay->showLogs($relatedLogs, $paginator); ?>
 	</div>
-	
-<?php //$debug->dump($member) ?>
-<?php //$debug->dump($logs) ?>
-<?php //$debug->dump($equipmentRecords) ?>
-	
 </div>

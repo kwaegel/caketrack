@@ -1,7 +1,8 @@
 <?php
 /* /app/views/helpers/tracking.php */
 class TrackingHelper extends AppHelper {
-	function makeTrackingLink($id, $fund, $trackingNumber) {
+	
+	function link($id, $fund, $trackingNumber) {
 		if ($fund == 'general')
 		{
 			$linkText = 'GF ' . $trackingNumber;
@@ -12,6 +13,10 @@ class TrackingHelper extends AppHelper {
 		}
 		
 		echo '<a href="/cakeTrack/equipment_records/view/' . $id . '">' . $linkText . '</a>';
+	}
+	
+	function makeTrackingLink($id, $fund, $trackingNumber) {
+		$this->link($id, $fund, $trackingNumber);
 	}
 	
 	function makeTrackingString($fund, $trackingNumber) {
