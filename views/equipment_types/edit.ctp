@@ -1,7 +1,7 @@
 <div class="equipmentTypes form">
 <?php echo $form->create('EquipmentType');?>
 	<fieldset>
- 		<legend><?php echo 'Edit the name of this equipment type';?></legend>
+ 		<legend>Edit the name of this equipment type</legend>
 		<p>Note: changing the name of this status type does not change what pieces of equipment are assigned to it. </p>
 	<?php
 		echo $form->input('id');

@@ -2,7 +2,7 @@
 class UsersController extends AppController {
 
 	var $name = 'Users';
-	var $helpers = array('Html', 'Form', 'Tracking');
+	var $helpers = array('Tracking');
 	
 	function index() {
 		$this->User->recursive = 0;
@@ -57,6 +57,40 @@ class UsersController extends AppController {
 
 	function logout() {
 		$this->redirect($this->Auth->logout());		// don't need a logout.ctp view
+	}
+	
+	function edit($id = null) {
+		if (!$id && empty($this->data)) {
+			$this->Session->setFlash('No user specified');
+			$this->redirect(array('action'=>'index'));
+		}
+		
+		if (empty($this->data))
+		{
+			$this->data = $this->User->findById($id);
+		}
+		else	// Save new data
+		{
+			// Get old record before save to log changes.
+			$oldRecord = $this->User->findById($this->data['User']['id']);
+			
+			// Create a log record of the name change
+			$oldName = $oldRecord['User']['name'];
+			$newName = $this->data['User']['name'];
+			
+			$userData = $this->Auth->user();
+			$this->data['Log']['0'] = array(
+				'user_id' => $userData['User']['id'],
+				'description' =>  'Name changed from "'. $oldName .'" to "' . $newName.'".',
+			);
+		
+			if ($this->User->saveAll($this->data)) {
+				$this->Session->setFlash('User name has been updated.');
+				$this->redirect(array('action'=>'index'));
+			} else {
+				$this->Session->setFlash('The User name could not be changed. Please, try again.');
+			}
+		}
 	}
 	
 	// Register a new user on the system.

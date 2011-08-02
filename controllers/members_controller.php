@@ -73,7 +73,7 @@ class MembersController extends AppController {
 
 	function edit($id = null) {
 		if (!$id && empty($this->data)) {
-			$this->Session->setFlash(__('Invalid Member', true));
+			$this->Session->setFlash('Invalid Member');
 			$this->redirect(array('action'=>'index'));
 		}
 		if (!empty($this->data)) {
