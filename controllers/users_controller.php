@@ -88,7 +88,7 @@ class UsersController extends AppController {
 			);
 		
 			if ($this->User->saveAll($this->data)) {
-				$this->Session->setFlash('User name has been updated.');
+				$this->Session->setFlash('Username changed.');
 				$this->redirect(array('action'=>'view', $id));
 			} else {
 				$this->Session->setFlash('The User name could not be changed. Please, try again.');
@@ -110,14 +110,14 @@ class UsersController extends AppController {
 			// Record the password reset
 			$this->data['Log']['0'] = array(
 				'user_id' => $userData['User']['id'],
-				'description' =>  '"'. $username .'" was promoted to administrator by"' . $adminName . '".',
+				'description' =>  '"'. $username .'" was promoted to administrator by "' . $adminName . '".',
 			);
 			
 			if ($this->User->saveAll($this->data)) {
-				$this->Session->setFlash('User is now an administrator.');
+				$this->Session->setFlash("$username is now an administrator.");
 				$this->redirect(array('action'=>'view', $id));
 			} else {
-				$this->Session->setFlash('The user could not be promoted. Please try again.');
+				$this->Session->setFlash("$username could not be promoted. Please try again.");
 			}
 		}
 	}
@@ -140,10 +140,10 @@ class UsersController extends AppController {
 			);
 			
 			if ($this->User->saveAll($this->data)) {
-				$this->Session->setFlash('User is now an administrator.');
+				$this->Session->setFlash("$username is now an administrator.");
 				$this->redirect(array('action'=>'view', $id));
 			} else {
-				$this->Session->setFlash('The user could not be promoted. Please try again.');
+				$this->Session->setFlash("$username could not be promoted. Please try again.");
 			}
 		}
 	}
@@ -202,7 +202,7 @@ class UsersController extends AppController {
 			);
 			
 			if ($this->User->saveAll($this->data)) {
-				$this->Session->setFlash('Password has been reset.');
+				$this->Session->setFlash("Password has been reset for $username.");
 				$this->redirect(array('action'=>'view', $id));
 			} else {
 				$this->Session->setFlash('The password could not be reset. Please try again.');
@@ -216,7 +216,7 @@ class UsersController extends AppController {
 		
 			if ($this->data['User']['password'] === $this->Auth->password($this->data['User']['confirm_password'])) {				
 				// Make all users admins for now.
-				$this->data['User']['admin'] = 1;
+				$this->data['User']['admin'] = 0;
 				
 				$newUser = $this->User->create();
 				
