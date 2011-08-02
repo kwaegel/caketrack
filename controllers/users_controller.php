@@ -218,22 +218,18 @@ class UsersController extends AppController {
 				// Make all users admins for now.
 				$this->data['User']['admin'] = 1;
 				
-				$this->User->create();
+				$newUser = $this->User->create();
 				
 				// Create a log recording when this user was added to the system.
 				$userAuthId = $this->Auth->user('id');
+				$loggedInUser = $this->User->findById($userAuthId);
 				
-				$this->log($this->Auth->user(), LOG_DEBUG);
-				
-				$this->data['Log']['0'] = array(
+				$loggedInUser['Log']['0'] = array(
 					'user_id' => $userAuthId,
-					'description' =>  'Added user "'. $this->data['User']['username'] .'" to the system.',
+					'description' =>  '"'.$loggedInUser['User']['username'].'" added user "'. $this->data['User']['username'] .'" to the system.',
 				);
 				
-				
-				if ($this->User->saveAll($this->data)){
-				
-					$this->log($this->data, LOG_DEBUG);
+				if ($this->User->save($this->data) && $this->User->saveAll($loggedInUser)){
 					
 					$this->Session->setFlash('Registration saved');
 					$this->redirect(array('action'=>'index'));
