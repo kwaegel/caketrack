@@ -1,18 +1,14 @@
 <?php
 /* /app/views/helpers/tracking.php */
 class TrackingHelper extends AppHelper {
+
+	var $helpers = array('Html');
 	
 	function link($id, $fund, $trackingNumber) {
-		if ($fund == 'general')
-		{
-			$linkText = 'GF ' . $trackingNumber;
-		}
-		else
-		{
-			$linkText = $trackingNumber;
-		}
+	
+		$linkText = ($fund == 'general') ? 'GF ' . $trackingNumber : $trackingNumber;
 		
-		echo '<a href="/cakeTrack/equipment_records/view/' . $id . '">' . $linkText . '</a>';
+		echo $this->Html->link($linkText, array('controller' => 'equipment_records', 'action' => 'view', $id));
 	}
 	
 	function makeTrackingLink($id, $fund, $trackingNumber) {
