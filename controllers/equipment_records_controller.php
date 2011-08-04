@@ -22,6 +22,22 @@ class EquipmentRecordsController extends AppController {
 		);
 		$this->set('equipmentRecords', $this->paginate());
 	}
+	
+	function viewUnassigned()
+	{
+		$records = $this->EquipmentRecord->find('all', array(
+			'conditions' => array('status_type_id'=> 1, 'Member.name' => 'None'),
+			'contain' => array(
+				'Fund',
+				'EquipmentType',
+				'StatusType',
+				'Member'
+			),
+			'order' => array('EquipmentRecord.equipment_type_id')
+		));
+		
+		$this->set('unassignedRecords', $records);
+	}
 
 	function view($id = null) {
 		$this->set("CSS", "EquipmentRecord.view.css"); 
@@ -55,12 +71,6 @@ class EquipmentRecordsController extends AppController {
 		);
 		$pages = $this->paginate($this->EquipmentRecord->Log, array('Log.equipment_record_id'=>$id));
 		$this->set('relatedLogs', $pages);
-		
-		// $log_results = $this->EquipmentRecord->Log->find('all', array(
-			// 'conditions' 	=> array('Log.equipment_record_id' => $id),
-			// 'order' 		=> array('Log.id DESC')	// id will maintain correct order even with the same timestamp
-		// ));
-		// $this->set('logs', $log_results);
 		
 		// set vars for drop down form elements
 		$members = $this->EquipmentRecord->Member->find('list');

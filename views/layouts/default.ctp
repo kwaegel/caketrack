@@ -76,6 +76,7 @@
 			<p>Menu</p>
 			<ul>
 				<li><?php echo $html->link('Equipment Records', array('controller' => 'equipment_records', 'action' => 'index')); ?></li>
+				<li><?php echo $html->link('Unassigned Equipment', array('controller' => 'equipment_records', 'action' => 'viewUnassigned')); ?></li>
 				<li><?php echo $html->link('Members', array('controller' => 'members', 'action' => 'index')); ?></li>
 				<li><?php echo $html->link('Equipment Types', array('controller' => 'equipment_types', 'action' => 'index')); ?></li>
 				<li><?php echo $html->link('Status Types', array('controller' => 'status_types', 'action' => 'index')); ?></li>
