@@ -136,6 +136,31 @@ class EquipmentRecordsController extends AppController {
 			}
 		}
 		
+		// Next available equipment ids
+		$lastReliefRecord = $this->EquipmentRecord->find(
+			'first',
+			array(
+				'fields' => array('tracking_number'),
+				'conditions' => array('EquipmentRecord.fund_id' => 1),	// 1 = forign key to 'relief'
+				'order' => 'tracking_number DESC'
+			)
+		);
+		$lastGeneralRecord = $this->EquipmentRecord->find(
+			'first',
+			array(
+				'fields' => array('tracking_number'),
+				'conditions' => array('EquipmentRecord.fund_id' => 2),	// 2 = forign key to 'general'
+				'order' => 'tracking_number DESC'
+			)
+		);
+		
+		$nextAvailableTrackingNumber['relief'] = $lastReliefRecord['EquipmentRecord']['tracking_number']+1;
+		$nextAvailableTrackingNumber['general'] = $lastGeneralRecord['EquipmentRecord']['tracking_number']+1;
+		$this->set('nextAvailableTrackingNumber', $nextAvailableTrackingNumber);
+		
+		$noneId = $this->EquipmentRecord->Member->find('first', array('fields'=>'id', 'conditions' => array('Member.name' => 'None')));
+		$this->set('noneId', $noneId['Member']['id']);
+		
 		// data to populate dropdown lists
 		$funds = $this->EquipmentRecord->Fund->find('list');
 		$members = $this->EquipmentRecord->Member->find('list');
